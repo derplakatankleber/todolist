@@ -1,0 +1,15 @@
+.ContainerNavContent{
+	background-color: magenta;
+	display: flex;
+    flex-direction: row;
+}
+
+.indexContainer{
+	/*	height: 65px; */
+	background-color: yellow;
+	/*display: table;*/
+	flex-basis: 200px;
+	/*height: 100%;*/
+	word-break: break-all;
+	align-self: stretch;
+}

@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+    <title>todonote</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/8.9.0/firebase-app.js"></script>
@@ -39,49 +40,70 @@
     </style>
 	<script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="/__/firebase/8.10.0/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+		 https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/8.10.0/firebase-analytics.js"></script>
+
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
+	<!-- fontawesome --->
+	<link type="text/css" rel="stylesheet" href="css/all.css" />
+	<!-- indiv -->
+	<link type="text/css" rel="stylesheet" href="./css/_header.css" />
+	<link type="text/css" rel="stylesheet" href="./css/_nav.css" />
+	<link type="text/css" rel="stylesheet" href="./css/_content.css" />
+	<script src="./js/auth.js"></script>
+	<script src="./js/firestore.js"></script>
+
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome me</h2>
-     </div>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+	<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
+		<div class="container">
+			<div class="container-icon">
+				<i id="useridicon" class="fas fa-user-circle fa-2x"></i>
+			</div>
+			<div class="loginfield">
+				<div class="userpasswordContainer">
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
+					<input autocomplete="email" name="username" required="" type="email" class="emailInput" value="">
+					<input name="password" required="" type="password" class="passwordInput" value="">
+				</div><div class="loginbuttonContainer">
+					<button class="loginbutton">sign in</button>
+				</div>
+			</div>
+			<button data-bs-toggle="collapse" class="navbar-toggler hide" data-bs-target="#navbarResponsive">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"/>
+			</button>
+			<div class="collapse navbar-collapse hide" id="navbarResponsive">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+					list1
+					</li>
+					<li class="nav-item">
+					list2
+					</li>
+				</ul>
+			</div>
+			<a class="navbar-brand" href="#">todolist</a>
+
+		</div>
+	</nav>
+    <div class="ContainerNavContent">
+	<div class="indexContainer" style="
+"><li><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></li><li><a href="javascript:openDocument('BMeV1QzltncIzknB9nGzvqdYVJh1')" class="doc">BMeV1QzltncIzknB9nGzvqdYVJh1</a></li><li><a href="javascript:openDocument('PtTg48E0LtLvxeG4EGYH')" class="doc">PtTg48E0LtLvxeG4EGYH</a></li><li><a href="javascript:openDocument('ZllXIjsxVmsiu397fTls')" class="doc">ZllXIjsxVmsiu397fTls</a></li><li><a href="javascript:openDocument('jtJt4Zjp2muFbb6y0ir8')" class="doc">jtJt4Zjp2muFbb6y0ir8</a></li></div>
+	<div class="contentContainer">
+		<div class="docContainer">content</div>
+		<div id="message">
+		  <h2>Welcome me <button class="jsonloader">load json index</button></h2>
+		 </div>
+		<p id="load">loading</p><p></p>
+		<div id="firebaseui-auth-container"></div>
+		<div id="loader">Loading...</div>
+	</div>
+	</div>
   </body>
 </html>
