@@ -20,6 +20,9 @@ function alreadyLoggedIn(user){
 		$("#useridicon").addClass("auth");
 		//hide login menu
 		$(".loginfield").hide();
+		if(typeof loadIndex == "function"){
+			loadIndex();
+		}
 	}	
 }
 
@@ -91,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	  ].filter(feature => typeof app[feature] === 'function');
 	  loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
 	  
+	  firebase.auth();
 	  //check if already logged in
 	  setTimeout(function(){
 		  if(firebase.auth().currentUser){
@@ -98,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		  }else{
 			  console.log("not ready for authentication!");
 		  }
-	  }, 500);
+	  }, 1000);
 	} catch (e) {
 	  console.error(e);
 	  loadEl.textContent = 'Error loading the Firebase SDK, check the console.';

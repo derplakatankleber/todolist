@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>todonote</title>
+	<link rel="shortcut icon" type="image/jpg" href="favicon.ico"/>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- update the version number as needed -->
@@ -94,9 +96,14 @@
 	</nav>
     <div class="ContainerNavContent">
 	<div class="indexContainer" style="
-"><li><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></li><li><a href="javascript:openDocument('BMeV1QzltncIzknB9nGzvqdYVJh1')" class="doc">BMeV1QzltncIzknB9nGzvqdYVJh1</a></li><li><a href="javascript:openDocument('PtTg48E0LtLvxeG4EGYH')" class="doc">PtTg48E0LtLvxeG4EGYH</a></li><li><a href="javascript:openDocument('ZllXIjsxVmsiu397fTls')" class="doc">ZllXIjsxVmsiu397fTls</a></li><li><a href="javascript:openDocument('jtJt4Zjp2muFbb6y0ir8')" class="doc">jtJt4Zjp2muFbb6y0ir8</a></li></div>
+"><!--<li><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></li>--></div>
 	<div class="contentContainer">
-		<div class="docContainer">content</div>
+		<div class="contentControlButton">
+			<button class="newDocument" onclick="newDocument()">New Document</button>
+			<button class="saveDocument" onclick="saveDocument()">Save Document</button>
+			<button class="deleteDocument" onclick="deleteDocument()">Delete Document</button>
+		</div>
+		<div class="docContainer"></div>
 		<div id="message">
 		  <h2>Welcome me <button class="jsonloader">load json index</button></h2>
 		 </div>

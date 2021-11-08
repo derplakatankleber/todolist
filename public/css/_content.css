@@ -6,3 +6,11 @@
 	/*height: 100%;*/
 	align-self: stretch;
 }
+
+.contentContainer .contentText{
+	/*js for expanding text*/
+	overflow-y: scroll; /* ?hidden? */
+	width: 98%;
+    resize: none;
+	/* für styled Text brauch man ein <span contenteditable>bla</span> */
+}
