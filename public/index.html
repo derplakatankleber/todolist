@@ -59,6 +59,9 @@
 	<link type="text/css" rel="stylesheet" href="./css/_content.css" />
 	<script src="./js/auth.js"></script>
 	<script src="./js/firestore.js"></script>
+	<script src="./js/indexFilter.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
 
   </head>
   <body>
@@ -70,8 +73,8 @@
 			<div class="loginfield">
 				<div class="userpasswordContainer">
 
-					<input autocomplete="email" name="username" required="" type="email" class="emailInput" value="">
-					<input name="password" required="" type="password" class="passwordInput" value="">
+					<input autocomplete="email" name="username" required="" type="email" class="emailInput" value="" placeholder="email">
+					<input name="password" required="" type="password" class="passwordInput" value="" placeholder="password">
 				</div><div class="loginbuttonContainer">
 					<button class="loginbutton">sign in</button>
 				</div>
@@ -95,8 +98,17 @@
 		</div>
 	</nav>
     <div class="ContainerNavContent">
-	<div class="indexContainer" style="
-"><!--<li><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></li>--></div>
+	<div class="indexContainer">
+		<!--<table id="indexTable"><thead><tr><th></th></tr></thead><tbody>
+		<tr><td><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></td></tr>
+		<tr><td><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">abc</a></td></tr>
+		</tbody></table>-->
+		<input class="indexFilter" placeholder="filter" type="text" name="FilterIndex">
+		<div class="items">
+            <!--<p><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></p>
+            <p><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">abc</a></p>-->
+        </div>
+	</div>
 	<div class="contentContainer">
 		<div class="contentControlButton">
 			<button class="newDocument" onclick="newDocument()">New Document</button>
