@@ -19,11 +19,26 @@ function alreadyLoggedIn(user){
 		window.myapp.user = user;
 		$("#useridicon").addClass("auth");
 		//hide login menu
-		$(".loginfield").hide();
+		$(".loginfield").addClass("hide");
+        $(".passwordInput").val("");
+        $(".containerUserEmail").text(window.myapp.user.email);
+        $(".loginSuccess").removeClass("hide")
 		if(typeof loadIndex == "function"){
 			loadIndex();
 		}
 	}	
+}
+
+function logOut(){
+    firebase.auth().signOut().then(() => {
+        // Sign-out successful.
+        $(".loginSuccess").addClass("hide");
+        $(".loginfield").removeClass("hide");
+        $(".containerUserEmail").text("");
+    }).catch((error) => {
+        // An error happened.
+        console.log(error);
+    });
 }
 
 function doLoginOld(){
@@ -58,7 +73,7 @@ function doLoginOld(){
 	ui.start('#firebaseui-auth-container', uiConfig);
 }
 document.addEventListener('DOMContentLoaded', function() {
-	$("button.loginbutton").on("click", doLogin);
+	//$("button.loginbutton").on("click", doLogin);
 	$("#useridicon").on("click", function(){ 
 		$("#firebaseui-auth-container").toggle();
 	});

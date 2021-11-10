@@ -15,3 +15,7 @@
     resize: none;
 	/* für styled Text brauch man ein <span contenteditable>bla</span> */
 }
+
+.contentControlButton{
+    margin: 0.3em;
+}
