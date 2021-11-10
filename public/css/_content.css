@@ -2,7 +2,8 @@
 	/*	height: 65px; */
 	background-color: lightgreen;
 	/*display: table;*/
-	flex-basis: 100%;
+	min-width: 500px;
+	flex: auto;
 	/*height: 100%;*/
 	align-self: stretch;
 }
