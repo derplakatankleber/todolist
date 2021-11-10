@@ -59,7 +59,8 @@
 	<link type="text/css" rel="stylesheet" href="./css/_content.css" />
 	<script src="./js/auth.js"></script>
 	<script src="./js/firestore.js"></script>
-
+	<script src="./js/draggable.js"></script>
+	
   </head>
   <body>
 	<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
@@ -95,17 +96,18 @@
 		</div>
 	</nav>
     <div class="ContainerNavContent">
-	<div class="indexContainer" style="
-"><!--<li><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></li>--></div>
+	<div class="indexContainer"><!--<li><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></li>--></div>
+	<div class="draggableSeperator"></div>
 	<div class="contentContainer">
 		<div class="contentControlButton">
 			<button class="newDocument" onclick="newDocument()">New Document</button>
 			<button class="saveDocument" onclick="saveDocument()">Save Document</button>
 			<button class="deleteDocument" onclick="deleteDocument()">Delete Document</button>
+			<button class="jsonloader">load json index</button>
 		</div>
 		<div class="docContainer"></div>
 		<div id="message">
-		  <h2>Welcome me <button class="jsonloader">load json index</button></h2>
+		  <h2>Welcome me</h2>
 		 </div>
 		<p id="load">loading</p><p></p>
 		<div id="firebaseui-auth-container"></div>

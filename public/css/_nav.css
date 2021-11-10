@@ -8,8 +8,14 @@
 	/*	height: 65px; */
 	background-color: yellow;
 	/*display: table;*/
+	min-width: 100px;
 	flex-basis: 200px;
 	/*height: 100%;*/
 	word-break: break-all;
 	align-self: stretch;
+}
+
+.draggableSeperator{
+	background-color: black;
+	width: 0.5em;
 }
