@@ -6,7 +6,7 @@ nav {
     height: 65px;
     background-color: grey;
 }
-nav > .container{
+nav > .container-nav{
     height: 100%;
     display: flex;
     flex-direction: row; 
@@ -59,4 +59,12 @@ nav > .container{
 }
 .loginSuccess span{
     color: var(--header-text-color);
+}
+
+.loginbutton{
+    line-height: 1;
+}
+.signoutButton{
+    line-height: 1;
+    margin-left: 1em;
 }

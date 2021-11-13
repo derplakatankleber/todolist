@@ -63,5 +63,5 @@ function dragElement(elmnt) {
 
 document.addEventListener('DOMContentLoaded', function() {
 	dragElement($(".draggableSeperator")[0]);
-	console.log("draggable done!");
+	//console.log("draggable done!");
 });

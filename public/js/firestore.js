@@ -47,7 +47,8 @@ function setIndexContainer(mapOfDocs){
             if(contentJSON["name"]){
                 name = contentJSON["name"];
             }
-            $(".indexContainer .items").append('<p><a href="javascript:openDocument(\''+docItem.id+'\')" class="doc">'+name+'</a></p>');
+            //$(".indexContainer .items").append('<p><a href="javascript:openDocument(\''+docItem.id+'\')" class="doc btn btn-secondary btn-sm stretched-link">'+name+'</a></p>');
+            $(".indexContainer .items").append('<button onclick="openDocument(\''+docItem.id+'\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">'+name+'</button>');
         }
     }
 }
