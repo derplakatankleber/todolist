@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	$("#useridicon").on("click", function(){ 
 		$("#firebaseui-auth-container").toggle();
 	});
-	const loadEl = document.querySelector('#load');
+	//const loadEl = document.querySelector('#load');
 	// // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 	// // The Firebase SDK is initialized and available here!
 	//
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		'remoteConfig',
 		'performance',
 	  ].filter(feature => typeof app[feature] === 'function');
-	  loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+	  console.log(`Firebase SDK loaded with ${features.join(', ')}`);
 	  
 	  firebase.auth();
 	  //check if already logged in
@@ -120,6 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	  }, 1000);
 	} catch (e) {
 	  console.error(e);
-	  loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+	  console.log('Error loading the Firebase SDK, check the console.');
 	}	
 });

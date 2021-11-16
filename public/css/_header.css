@@ -1,10 +1,6 @@
-:root {
-  --header-text-color: lightgreen;
-}
-
 nav {
     height: 65px;
-    background-color: grey;
+    background-color: var(--header-bg-color);
 }
 nav > .container-nav{
     height: 100%;
@@ -29,7 +25,7 @@ nav > .container-nav{
 .navbar-brand{
     font-size: xx-large;
     text-decoration: none;
-    color: white;
+    color: var(--header-brand-color);
     padding: 5px;
     align-self: center;
     text-align: right;

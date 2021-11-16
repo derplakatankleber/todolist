@@ -1,6 +1,27 @@
+/* imports for viewable segments */
 @import url("_header.css");
 @import url("_nav.css");
 @import url("_content.css");
+
+/* global variable for colors and styles */
+:root {
+  --header-text-color: lightgreen;
+  --header-bg-color: grey;
+  --header-brand-color: white;
+  
+  --navigation-separator-color: grey;
+  --navigation-bg-color: yellow;
+  --navigation-container-bg-color: white;
+  
+  --content-container-bg-color: lightgreen;
+  
+}
+
+/* 
+get value with js
+    window.getComputedStyle(document.querySelector('html'), ':root').getPropertyValue('--header-text-color');
+set value with js
+    document.documentElement.style.setProperty('--header-text-color', 'green');
 
 /* fontawesome */
 /*@import url("all.css");*/

@@ -100,16 +100,27 @@ function openDocument(docId){
 }
 
 function setContentEvents(){
-    //expandable textbox for contentData.contentText
-    $('textarea.contentText').on('keydown input', function() {
-      //Auto-expanding textarea
-      this.style.removeProperty('height');
-      this.style.height = (this.scrollHeight+2) + 'px';
-    }).on('mousedown focus', function() {
-      //Do this on focus, to allow textarea to animate to height...
-      this.style.removeProperty('height');
-      this.style.height = (this.scrollHeight+2) + 'px';
-    });
+    if(htmlEditor && htmlEditor.isActive()){
+        htmlEditor.startEditor('textarea.contentText');
+    } else {
+        //expandable textbox for contentData.contentText
+        $('textarea.contentText').on('keydown input', function() {
+          //Auto-expanding textarea
+          this.style.removeProperty('height');
+          this.style.height = (this.scrollHeight+2) + 'px';
+        }).on('mousedown focus', function() {
+          //Do this on focus, to allow textarea to animate to height...
+          this.style.removeProperty('height');
+          this.style.height = (this.scrollHeight+2) + 'px';
+        });
+    }
+}
+function getDocumentContent(){
+    if(htmlEditor && htmlEditor.isActive()){
+        return htmlEditor.getHtmlContent();
+    } else {
+        return $(".contentText").val();
+    }
 }
 
 function saveDocument(callbackSuccess){
@@ -121,7 +132,7 @@ function saveDocument(callbackSuccess){
         //copy attributes
         mydoc = getJSONofDocument(myapp.contentDoc);
         mydoc.name = $(".contentName").val();
-        mydoc.content = $(".contentText").val();
+        mydoc.content = getDocumentContent();
         mydoc.lastaccess = new Date().toISOString();
         mydoc.modified = new Date().toISOString();
         myapp.firestore.collection(mycollectionName).doc(id).set(
@@ -139,7 +150,7 @@ function saveDocument(callbackSuccess){
         if( $(".contentName").val()){name = $(".contentName").val();}
         mydoc.name = name;
         let content="";
-        if( $(".contentText").val()){name = $(".contentText").val();}
+        if( getDocumentContent()){content = getDocumentContent();}
         mydoc.content = content;
         mydoc.lastaccess = new Date().toISOString();
         mydoc.modified = new Date().toISOString();

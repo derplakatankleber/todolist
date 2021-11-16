@@ -44,7 +44,7 @@ function dragElement(elmnt) {
 		//elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
 		let oldPos = elementPosition();
 		let newPos = e.clientX; //+offsetPos;
-		console.log("left "+ pos1 + " " + e.clientX + " "+ newPos + " "+ oldPos + " Offset: "+offsetPos);
+		//console.log("left "+ pos1 + " " + e.clientX + " "+ newPos + " "+ oldPos + " Offset: "+offsetPos);
 		if(newPos > minBorderLeft && newPos < (window.innerWidth - minBorderRight)){
 			$(".indexContainer").css("flex-basis", newPos + "px");
 		}

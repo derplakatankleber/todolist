@@ -1,6 +1,6 @@
 .contentContainer{
 	/*	height: 65px; */
-	background-color: lightgreen;
+	background-color: var(--content-container-bg-color);
 	/*display: table;*/
 	min-width: 500px;
 	flex: auto;

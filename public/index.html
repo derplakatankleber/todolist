@@ -55,13 +55,16 @@
     <link type="text/css" rel="stylesheet" href="./css/bootstrap.min.css" />
 	<script src="./js/bootstrap.min.js"></script>
     <link type="text/css" rel="stylesheet" href="css/all.css" />
-
+    <!-- sceditor -->
+    <link rel="stylesheet" href="./sceditor/themes/default.min.css" />
+    <script src="./sceditor/sceditor.min.js"></script>
 	<!-- indiv -->
     <link type="text/css" rel="stylesheet" href="./css/style.css" />
 	<script src="./js/auth.js"></script>
 	<script src="./js/firestore.js"></script>
 	<script src="./js/draggable.js"></script>
 	<script src="./js/indexFilter.js"></script>
+    <script src="./js/startEditor.js"></script>
   </head>
   <body class="h-100">
 	<nav class="navbar-custom">
@@ -88,10 +91,6 @@
 	</nav>
     <div class="ContainerNavContent h-100">
         <div class="indexContainer">
-            <!--<table id="indexTable"><thead><tr><th></th></tr></thead><tbody>
-            <tr><td><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></td></tr>
-            <tr><td><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">abc</a></td></tr>
-            </tbody></table>-->
             <input class="indexFilter w-90 rounded" placeholder="filter" type="search" name="FilterIndex">
             <div class="items d-grid gap-1 m-1">
                 <!--<p><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></p>
@@ -101,18 +100,18 @@
         <div class="draggableSeperator"></div>
         <div class="contentContainer">
             <div class="contentControlButton">
-                <button class="newDocument btn btn-primary btn-sm" onclick="newDocument()"><i class="fa fa-file"></i> New Document</button>
-                <button class="saveDocument btn btn-primary btn-sm" onclick="saveDocument()"><i class="fa fa-save"></i> Save Document</button>
-                <button class="deleteDocument btn btn-primary btn-sm" onclick="deleteDocument()"><i class="fa fa-window-close"></i> Delete Document</button>
-                <button class="jsonloader btn btn-primary btn-sm"><i class='fa fa-list-ol'></i> load json index</button>
+                <button class="newDocument btn btn-primary btn-sm" onclick="newDocument()"><i class="fa fa-file"></i> new document</button>
+                <button class="saveDocument btn btn-primary btn-sm" onclick="saveDocument()"><i class="fa fa-save"></i> save document</button>
+                <button class="deleteDocument btn btn-primary btn-sm" onclick="deleteDocument()"><i class="fa fa-window-close"></i> delete document</button>
+                <button class="jsonloader btn btn-primary btn-sm"><i class='fa fa-list-ol'></i> load index</button>
             </div>
             <div class="docContainer"></div>
-            <div id="message">
+            <!--<div id="message">
               <h2>Welcome me</h2>
              </div>
-            <p id="load">loading</p><p></p>
+            <p id="load">loading</p><p></p>-->
             <div id="firebaseui-auth-container"></div>
-            <div id="loader">Loading...</div>
+            <!--<div id="loader">Loading...</div>-->
         </div>
 	</div>
   </body>

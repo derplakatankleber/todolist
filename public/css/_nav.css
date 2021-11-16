@@ -1,12 +1,12 @@
 .ContainerNavContent{
-    background-color: magenta;
+    background-color: var(--navigation-container-bg-color);
     display: flex;
     flex-direction: row;
 }
 
 .indexContainer{
 	/*	height: 65px; */
-	background-color: yellow;
+	background-color: var(--navigation-bg-color);
 	/*display: table;*/
 	min-width: 100px;
 	flex-basis: 200px;
@@ -16,7 +16,7 @@
 }
 
 .draggableSeperator{
-	background-color: black;
+	background-color: var(--navigation-separator-color);
 	width: 0.5em;
 }
 .indexContainer button{
