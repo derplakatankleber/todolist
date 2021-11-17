@@ -82,7 +82,7 @@ function openDocument(docId){
                     }
                     $(".docContainer").append('<p>'+key+': '+ contentJSON[key] +'</p>');
                 });
-                $(".docContainer").append('</div>')
+                $(".docContainer").append('</div>');
             }
             if($(".docContainer").children().length < 1){
                 $(".docContainer").append('<p>Documentname: '+ doc.id +'</p>');
@@ -91,7 +91,7 @@ function openDocument(docId){
                     $(".docContainer").append('<p>'+key+': '+ contentData[key] +'</p>');
                 });
             }
-            setContentEvents();
+            setContentEvents(contentJSON);
 //<textarea class="contentName">myname</textarea><div class="contentAttributes"></div><textarea class="contentText" rows="2">StringString
 //StringString</textarea>
         });
@@ -99,8 +99,9 @@ function openDocument(docId){
     }
 }
 
-function setContentEvents(){
-    if(htmlEditor && htmlEditor.isActive()){
+function setContentEvents(contentJSON){
+	//check for note or todo
+    if(contentJSON && contentJSON["type"] == "note"&& htmlEditor){
         htmlEditor.startEditor('textarea.contentText');
     } else {
         //expandable textbox for contentData.contentText
