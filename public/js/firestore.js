@@ -1,6 +1,7 @@
 //TODO: check for login and connection
 //TODO: flat objects for doc
 var mycollectionName = "testdb";
+var tagItemList = [];
 
 function loadIndex(){
     if(app && myapp){
@@ -49,6 +50,21 @@ function setIndexContainer(mapOfDocs){
             }
             //$(".indexContainer .items").append('<p><a href="javascript:openDocument(\''+docItem.id+'\')" class="doc btn btn-secondary btn-sm stretched-link">'+name+'</a></p>');
             $(".indexContainer .items").append('<button onclick="openDocument(\''+docItem.id+'\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">'+name+'</button>');
+            if(contentJSON["tags"] && contentJSON["tags"].length > 0){
+                let tagListS = contentJSON["tags"];
+                let tagList =[];
+                if(Array.isArray(tagListS)){
+                    tagList = tagListS;
+                }else{
+                    let regEx = /[\s,;]+/;
+                    tagList = tagListS.split(regEx);
+                }
+                $(tagList).each(function( index, key ) {
+                    if(!tagItemList.includes(key)){
+                        tagItemList.push(key);
+                    }
+                });
+            }
         }
     }
 }
@@ -73,16 +89,32 @@ function openDocument(docId){
                         contentRows = contentJSON.content.split("\n").length;
                     }
                 }
-                $(".docContainer").append('<textarea class="contentText" rows="' + contentRows + '">'+ contentJSON.content+'</textarea>');
                 $(".docContainer").append('<div class="contentAttributes">');
+                $(".contentAttributes").append('<i class="bi bi-three-dots-vertical contentAttributesMoreClick"></i><div class="contentAttributesMore"></div>');
+                $(".contentAttributesMore").toggle(false);
+                $(".contentAttributesMoreClick").on("click",function(){$(".contentAttributesMore").toggle();});
                 let keys = Object.keys(contentJSON);
                 $(keys).each(function( index, key ) {
                     if(key === "name" || key === "content"){
                         return;
                     }
-                    $(".docContainer").append('<p>'+key+': '+ contentJSON[key] +'</p>');
+                    if(key === "tags"){
+                        $(".contentAttributes").prepend('<p>Tags: <input type="text" class="contentTags" placeholder="tags" list="contentTagList" multiple>');
+                    }else {
+                        $(".contentAttributesMore").append('<span>'+key+': '+ contentJSON[key] +'<br></span>');
+                    }
                 });
+                $(".docContainer").append('<datalist id="contentTagList"></datalist>');
+                let tagItems ="";
+                if(tagItemList && Array.isArray(tagItemList)){
+                    $(tagItemList).each(function( index, tagItem ) {
+                        tagItems += '<option value="'+tagItem+'">';
+                    });
+                }
+                $("#contentTagList").append(tagItems);
                 $(".docContainer").append('</div>');
+                $(".contentTags").flexdatalist();
+                $(".docContainer").append('<textarea class="contentText" rows="' + contentRows + '">'+ contentJSON.content+'</textarea>');
             }
             if($(".docContainer").children().length < 1){
                 $(".docContainer").append('<p>Documentname: '+ doc.id +'</p>');

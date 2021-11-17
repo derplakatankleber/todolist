@@ -3,6 +3,12 @@
 @import url("_nav.css");
 @import url("_content.css");
 
+/* third party elements*/
+@import url("../thirdparty/bootstrap/bootstrap.min.css");
+@import url("../thirdparty/bootstrap-icons/bootstrap-icons.css");
+@import url("../thirdparty/sceditor/themes/default.min.css");
+@import url("../thirdparty/flexdatalist/jquery.flexdatalist.min.css");
+
 /* global variable for colors and styles */
 :root {
   --header-text-color: lightgreen;

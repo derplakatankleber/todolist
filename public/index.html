@@ -25,22 +25,7 @@
       to avoid connecting the SDK to running emulators.
     -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-	<script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="/__/firebase/8.10.0/firebase-app.js"></script>
@@ -51,16 +36,11 @@
 
 	<!-- Initialize Firebase -->
 	<script src="/__/firebase/init.js"></script>
-    <!-- bootstrap -->
-    <link type="text/css" rel="stylesheet" href="./css/bootstrap.min.css" />
-	<script src="./js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="css/all.css" />
-    <!-- sceditor -->
-    <link rel="stylesheet" href="./sceditor/themes/default.min.css" />
-    <script src="./sceditor/sceditor.min.js"></script>
 	<!-- indiv -->
     <link type="text/css" rel="stylesheet" href="./css/style.css" />
-	<script src="./js/auth.js"></script>
+    <script data-main="scripts/main" src="./thirdparty/requirejs.min.js"></script>
+    <script src="./js/thridparty.js"></script>
+    <script src="./js/auth.js"></script>
 	<script src="./js/firestore.js"></script>
 	<script src="./js/draggable.js"></script>
 	<script src="./js/indexFilter.js"></script>
@@ -70,7 +50,7 @@
 	<nav class="navbar-custom">
 		<div class="container-nav">
 			<div class="container-icon">
-				<i id="useridicon" class="fas fa-user-circle fa-2x"></i>
+				<i id="useridicon" class="bi bi-person-circle fs-2"></i>
             </div>
 			<div class="loginfield">
 				<div class="userpasswordContainer">
@@ -100,10 +80,10 @@
         <div class="draggableSeperator"></div>
         <div class="contentContainer">
             <div class="contentControlButton">
-                <button class="newDocument btn btn-primary btn-sm" onclick="newDocument()"><i class="fa fa-file"></i> new document</button>
-                <button class="saveDocument btn btn-primary btn-sm" onclick="saveDocument()"><i class="fa fa-save"></i> save document</button>
-                <button class="deleteDocument btn btn-primary btn-sm" onclick="deleteDocument()"><i class="fa fa-window-close"></i> delete document</button>
-                <button class="jsonloader btn btn-primary btn-sm"><i class='fa fa-list-ol'></i> load index</button>
+                <button class="newDocument btn btn-primary btn-sm" onclick="newDocument()"><i class="bi bi-file-earmark-code"></i> new document</button>
+                <button class="saveDocument btn btn-primary btn-sm" onclick="saveDocument()"><i class="bi bi-save"></i> save document</button>
+                <button class="deleteDocument btn btn-primary btn-sm" onclick="deleteDocument()"><i class="bi bi-file-x"></i> delete document</button>
+                <button class="jsonloader btn btn-primary btn-sm"><i class='bi bi-list-ol'></i> load index</button>
             </div>
             <div class="docContainer"></div>
             <!--<div id="message">
