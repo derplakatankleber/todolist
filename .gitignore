@@ -67,3 +67,6 @@ node_modules/
 
 #dist directory
 dist/
+
+#package-lock.json entfernen
+package-lock.json
