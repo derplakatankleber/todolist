@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-	"build": "echo \"done!\"",
+    "build": "echo \"done!\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/derplakatankleber/todolist/issues"
   },
-  "homepage": "https://github.com/derplakatankleber/todolist#readme"
+  "homepage": "https://github.com/derplakatankleber/todolist#readme",
+  "dependencies": {
+    "firebase": "^9.5.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.64.2",
+    "webpack-cli": "^4.9.1"
+  }
 }
