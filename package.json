@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "echo \"done!\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx webpack",
+    "test": "firebase emulators:start",
+    "deploy": "firebase deploy"
   },
   "repository": {
     "type": "git",
