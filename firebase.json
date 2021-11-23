@@ -3,8 +3,10 @@
     "public": "public",
     "ignore": [
       "firebase.json",
+      "firebase-config.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "**/dist/**"
     ],
     "rewrites": [
       {

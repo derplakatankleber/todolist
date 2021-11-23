@@ -1,13 +1,16 @@
-window.htmlEditor = {
-    selectorEditor: ".contentText",
-    active: false,
-    config: "",
+// import * as sceditor from '../thirdparty/sceditor/sceditor.min.js';
+// window.sceditor = sceditor;
+
+export default class htmlEditorC{
+    selectorEditor= ".contentText";
+    active= false;
+    config= "";
     
-    getHtmlTextarea: function(){
+    getHtmlTextarea(){
         return $(this.selectorEditor);
-    },
+    }
     
-    startEditor: function (textareaSelector){
+    startEditor(textareaSelector){
         if($(textareaSelector).length > 0){
             this.selectorEditor = textareaSelector;
         }
@@ -18,14 +21,30 @@ window.htmlEditor = {
             format: 'xhtml',
             style: '../sceditor/themes/content/default.min.css'
         });
-        active = true;
-    },
+        this.active = true;
+    }
 
-    getHtmlContent: function (){
+    getHtmlContent(){
         return sceditor.instance(this.getHtmlTextarea()[0]).val();
-    },
+    }
     
-    isActive: function(){
-        return active;
-    },
+    isActive(){
+        if(typeof sceditor.instance(this.getHtmlTextarea()[0]) == "undefined"){
+            this.active=false;
+        }
+        return this.active;
+    }
 };
+window.htmlEditor= new htmlEditorC();
+
+export function startEditor(){
+    window.htmlEditor.startEditor();
+}
+
+export function isActive(){
+    window.htmlEditor.isActive();
+}
+
+export function getHtmlContent(){
+    window.htmlEditor.getHtmlContent();
+}

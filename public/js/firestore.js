@@ -1,85 +1,107 @@
 //TODO: check for login and connection
 //TODO: flat objects for doc
-var mycollectionName = "testdb";
-var tagItemList = [];
+import {getFirestore,query,getDocs,collection, doc, getDoc,addDoc, deleteDoc, setDoc} from 'firebase/firestore';
+import * as $ from '../thirdparty/jquery.js';
+import htmlEditorC from './startEditor.js'
+// import auth from from './auth.js'
 
-function loadIndex(){
-    if(app && myapp){
-        //myapp.user.uid
-        if(!myapp.firestore){
-            myapp.firestore = firebase.firestore();
+export default class store{
+    mycollectionName= "testdb";
+    tagItemList= [];
+    //db: getFirestore(), //in firebase-docu only called "db"
+    db;
+    indexMap={};
+    contentDoc;
+    internalHtmlEditor;
+    #user="";
+    constructor(uid) {
+        this.#user = uid;
+    }
+
+    initFirestore(){
+        if(this.#user == ""){
+            alert("Please login to proceed");
+            return undefined;
         }
-        myapp.firestore.collection(mycollectionName).get().then((querySnapshot) => {
-            //querySnapshot.forEach((doc) => {
-            //	console.log(`${doc.id} => ${doc.data()}`);
-            //	console.log(`${doc.data().text1}`);
-            //});
-            myapp.indexMap = {};
-            $(querySnapshot.docs).each(function( index, doc ) {
-                myapp.indexMap[doc.id]=doc;
+        this.db = getFirestore();
+    }
+    
+    getHtmlEditor(){
+        if(typeof this.internalHtmlEditor == "undefined"){
+            this.internalHtmlEditor = new htmlEditorC();
+        }
+        return this.internalHtmlEditor;
+    }
+    async loadIndexlist(){
+        if(myapp){
+            //this.user.uid
+            if(!this.db){
+                this.initFirestore();//db = getFirestore();//in docu only called "db"
+            }
+            const q = query(collection(this.db,this.mycollectionName));
+            const querySnapshot = await getDocs(q);
+            this.indexMap = {};
+            querySnapshot.forEach((doc) => {
+                this.indexMap[doc.id]=doc;
             });
-            setIndexContainer(myapp.indexMap);
-        });
-    }
-}
-
-function getJSONofDocument(docItem){
-    let contentJSON = {};
-    try{
-        if(docItem.data().doc){
-            contentJSON = JSON.parse(docItem.data().doc);
-        } else{
-            contentJSON = docItem.data();
+            this.setIndexContainer(this.indexMap);
         }
-    }catch(error){
-        console.error(error);
     }
-    contentJSON["id"]= docItem.id;
-    return contentJSON;
-}
 
-function setIndexContainer(mapOfDocs){
-    $(".indexContainer .items").empty();
-    if(mapOfDocs){
-        for (let key in mapOfDocs) {
-            let docItem = mapOfDocs[key];
-            let contentJSON = getJSONofDocument(docItem);
-            let name = contentJSON["id"];
-            if(contentJSON["name"]){
-                name = contentJSON["name"];
+    getJSONofDocument(docItem){
+        let contentJSON = {};
+        try{
+            if(docItem.data().doc){
+                contentJSON = JSON.parse(docItem.data().doc);
+            } else{
+                contentJSON = docItem.data();
             }
-            //$(".indexContainer .items").append('<p><a href="javascript:openDocument(\''+docItem.id+'\')" class="doc btn btn-secondary btn-sm stretched-link">'+name+'</a></p>');
-            $(".indexContainer .items").append('<button onclick="openDocument(\''+docItem.id+'\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">'+name+'</button>');
-            if(contentJSON["tags"] && contentJSON["tags"].length > 0){
-                let tagListS = contentJSON["tags"];
-                let tagList =[];
-                if(Array.isArray(tagListS)){
-                    tagList = tagListS;
-                }else{
-                    let regEx = /[\s,;]+/;
-                    tagList = tagListS.split(regEx);
+        }catch(error){
+            console.error(error);
+        }
+        contentJSON["id"]= docItem.id;
+        return contentJSON;
+    }
+
+    setIndexContainer(mapOfDocs){
+        $(".indexContainer .items").empty();
+        if(mapOfDocs && myapp){
+            for (let key in mapOfDocs) {
+                let docItem = mapOfDocs[key];
+                let contentJSON = this.getJSONofDocument(docItem);
+                let name = contentJSON["id"];
+                if(contentJSON["name"]){
+                    name = contentJSON["name"];
                 }
-                $(tagList).each(function( index, key ) {
-                    if(!tagItemList.includes(key)){
-                        tagItemList.push(key);
+                //$(".indexContainer .items").append('<p><a href="javascript:openDocument(\''+docItem.id+'\')" class="doc btn btn-secondary btn-sm stretched-link">'+name+'</a></p>');
+                $(".indexContainer .items").append('<button onclick="mystore.openDocument(\''+docItem.id+'\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">'+name+'</button>');
+                if(contentJSON["tags"] && contentJSON["tags"].length > 0){
+                    let tagListS = contentJSON["tags"];
+                    let tagList =[];
+                    if(Array.isArray(tagListS)){
+                        tagList = tagListS;
+                    }else{
+                        let regEx = /[\s,;]+/;
+                        tagList = tagListS.split(regEx);
                     }
-                });
+                    for (let tag of tagList) {
+                        if(!this.tagItemList.includes(tag)){
+                            this.tagItemList.push(tag);
+                        }
+                    }
+                }
             }
         }
     }
-}
-function logError(error){
-    console.error(error);
-}
 
-function openDocument(docId){
-    clearDocumentView();
-    if(docId && app && myapp && myapp.firestore){
-        myapp.firestore.collection(mycollectionName).doc(docId).get()
-        .then((doc) => {
-            myapp.contentDoc =doc;
-            //console.log(doc.id, " => ", doc.data());
-            let contentJSON = getJSONofDocument(doc);
+    async openDocument(docId){
+        if(docId && myapp){
+            this.clearDocumentView();
+            const docRef = doc(this.db,this.mycollectionName, docId );
+            const docSnap = await getDoc(docRef);
+            this.contentDoc =docSnap;
+            //console.log(docSnap.id, " => ", docSnap.data());
+            let contentJSON = this.getJSONofDocument(docSnap);
             if(contentJSON["name"] != "undefined"){
                 $(".docContainer").append('<p>Documentname: <input type="text" class="contentName" value="'+ contentJSON.name +'"></p>');
                 //$(".docContainer .contentName").val(contentJSON.name);
@@ -106,136 +128,149 @@ function openDocument(docId){
                 });
                 $(".docContainer").append('<datalist id="contentTagList"></datalist>');
                 let tagItems ="";
-                if(tagItemList && Array.isArray(tagItemList)){
-                    $(tagItemList).each(function( index, tagItem ) {
+                if(this.tagItemList && Array.isArray(this.tagItemList)){
+                    $(this.tagItemList).each(function( index, tagItem ) {
                         tagItems += '<option value="'+tagItem+'">';
                     });
                 }
                 $("#contentTagList").append(tagItems);
                 $(".docContainer").append('</div>');
-                $(".contentTags").flexdatalist();
+                //$(".contentTags").flexdatalist();
                 $(".docContainer").append('<textarea class="contentText" rows="' + contentRows + '">'+ contentJSON.content+'</textarea>');
             }
             if($(".docContainer").children().length < 1){
-                $(".docContainer").append('<p>Documentname: '+ doc.id +'</p>');
+                $(".docContainer").append('<p>Documentname: '+ docSnap.id +'</p>');
                 let keys = Object.keys(contentData);
                 $(keys).each(function( index, key ) {
                     $(".docContainer").append('<p>'+key+': '+ contentData[key] +'</p>');
                 });
             }
-            setContentEvents(contentJSON);
-//<textarea class="contentName">myname</textarea><div class="contentAttributes"></div><textarea class="contentText" rows="2">StringString
-//StringString</textarea>
-        });
+            this.setContentEvents(contentJSON);
+    //<textarea class="contentName">myname</textarea><div class="contentAttributes"></div><textarea class="contentText" rows="2">StringString
+    //StringString</textarea>
 
+        }
     }
-}
 
-function setContentEvents(contentJSON){
-	//check for note or todo
-    if(contentJSON && contentJSON["type"] == "note"&& htmlEditor){
-        htmlEditor.startEditor('textarea.contentText');
-    } else {
-        //expandable textbox for contentData.contentText
-        $('textarea.contentText').on('keydown input', function() {
-          //Auto-expanding textarea
-          this.style.removeProperty('height');
-          this.style.height = (this.scrollHeight+2) + 'px';
-        }).on('mousedown focus', function() {
-          //Do this on focus, to allow textarea to animate to height...
-          this.style.removeProperty('height');
-          this.style.height = (this.scrollHeight+2) + 'px';
-        });
+    setContentEvents(contentJSON){
+        //check for note or todo
+        if(contentJSON && contentJSON["type"] == "note"&& typeof this.getHtmlEditor().startEditor !== "undefined"){
+            this.getHtmlEditor().startEditor('textarea.contentText');
+        } else {
+            //expandable textbox for contentData.contentText
+            $('textarea.contentText').on('keydown input', function() {
+              //Auto-expanding textarea
+              this.style.removeProperty('height');
+              this.style.height = (this.scrollHeight+2) + 'px';
+            }).on('mousedown focus', function() {
+              //Do this on focus, to allow textarea to animate to height...
+              this.style.removeProperty('height');
+              this.style.height = (this.scrollHeight+2) + 'px';
+            });
+        }
     }
-}
-function getDocumentContent(){
-    if(htmlEditor && htmlEditor.isActive()){
-        return htmlEditor.getHtmlContent();
-    } else {
-        return $(".contentText").val();
+    getDocumentContent(){
+        if(this.getHtmlEditor().isActive()){
+            return this.getHtmlEditor().getHtmlContent();
+        } else {
+            return $(".contentText").val();
+        }
     }
-}
 
-function saveDocument(callbackSuccess){
-    let mydoc ={};
-    let id = "";
-    if(myapp.contentDoc && myapp.contentDoc.id){
-        //existing object
-        id = myapp.contentDoc.id;
-        //copy attributes
-        mydoc = getJSONofDocument(myapp.contentDoc);
-        mydoc.name = $(".contentName").val();
-        mydoc.content = getDocumentContent();
-        mydoc.lastaccess = new Date().toISOString();
-        mydoc.modified = new Date().toISOString();
-        myapp.firestore.collection(mycollectionName).doc(id).set(
-            mydoc
-        )
-        .then(() => {
-            console.log("Document successfully written!");
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
-        });
-    }else{
-        //new object
-        let name ="";
-        if( $(".contentName").val()){name = $(".contentName").val();}
-        mydoc.name = name;
-        let content="";
-        if( getDocumentContent()){content = getDocumentContent();}
-        mydoc.content = content;
-        mydoc.lastaccess = new Date().toISOString();
-        mydoc.modified = new Date().toISOString();
-        mydoc.created = new Date().toISOString();
-        mydoc.owner = myapp.user.uid;
-        mydoc.type = "note";
-        mydoc.tags = [];
-        myapp.firestore.collection(mycollectionName).add(
-            mydoc
-        )
-        .then((docRef) => {
-            console.log("Document written with ID: ", docRef.id);
-            myapp.contentDoc = docRef;
-            callbackSuccess();
-        })
-        .catch((error) => {
-            console.error("Error adding document: ", error);
-        });
-
+    async saveDocument(){
+        let mydoc ={};
+        let id = "";
+        if(this.contentDoc && this.contentDoc.id){
+            let reloadIndex = false;
+            //existing object
+            id = this.contentDoc.id;
+            //copy attributes
+            mydoc = this.getJSONofDocument(this.contentDoc);
+            let doctitle = $(".contentName").val();
+            if(mydoc.name !== doctitle){
+                reloadIndex = true;
+            }
+            mydoc.name = doctitle;
+            mydoc.content = this.getDocumentContent();
+            mydoc.lastaccess = new Date().toISOString();
+            mydoc.modified = new Date().toISOString();
+            try{
+                await setDoc(doc(this.db,this.mycollectionName,id), mydoc);
+                console.log("Document successfully written!");
+                if(reloadIndex){
+                    this.loadIndexlist();
+                }
+            }catch(error){
+                console.error("Error writing document: ", error);
+            }
+        }else{
+            //new object
+            let name ="";
+            if( $(".contentName").val()){name = $(".contentName").val();}
+            mydoc.name = name;
+            let content = this.getDocumentContent();
+            mydoc.content = content;
+            mydoc.lastaccess = new Date().toISOString();
+            mydoc.modified = new Date().toISOString();
+            mydoc.created = new Date().toISOString();
+            mydoc.owner = this.#user;
+            mydoc.type = "note";
+            mydoc.tags = [];
+            try {
+                let docRef = await addDoc(collection(this.db, this.mycollectionName), mydoc);
+                console.log("Document written with ID: ", docRef.id);
+                this.contentDoc = docRef;
+                this.reopenSelectedDocument();
+            }catch(error){
+                console.error("Error adding document: ", error);
+            }
+        }
     }
-}
-function reopenSelectedDocument(){
-    loadIndex();
-    openDocument(myapp.contentDoc.id);
-}
-
-function newDocument(){
-    if(myapp.contentDoc && myapp.contentDoc.id){
-        myapp.contentDocOld = myapp.contentDoc;
-        myapp.contentDoc = undefined;
+    reopenSelectedDocument(){
+        this.loadIndexlist();
+        this.openDocument(mystore.contentDoc.id);
     }
-    saveDocument(reopenSelectedDocument);
-}
 
-function deleteDocument(){
-    if(myapp.contentDoc.id && myapp.contentDoc){
-        myapp.firestore.collection(mycollectionName).doc(myapp.contentDoc.id).delete().then(() => {
-            console.log("Document successfully deleted!");
-            //clear doc view
-            clearDocumentView();
-            //reload doc index
-            loadIndex();
-        }).catch((error) => {
-            console.error("Error removing document: ", error);
-        });
+    newDocument(){
+        if(this.contentDoc && this.contentDoc.id){
+            this.contentDocOld = this.contentDoc;
+            this.contentDoc = undefined;
+        }
+        this.saveDocument();
     }
+
+    deleteDocument(){
+        if(this.contentDoc.id && this.contentDoc){
+            deleteDoc(doc(this.db,this.mycollectionName, this.contentDoc.id)).then(() => {
+                console.log("Document successfully deleted!");
+                //clear doc view
+                this.clearDocumentView();
+                //reload doc index
+                this.loadIndexlist();
+            }).catch((error) => {
+                console.error("Error removing document: ", error);
+            });
+        }
+    }
+
+    clearDocumentView(){
+        $(".docContainer").empty();
+    }
+};
+
+
+export function loadIndex(userid){
+    window.mystore= new store(userid);
+    window.mystore.loadIndexlist();
 }
 
-function clearDocumentView(){
-    $(".docContainer").empty();
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    $(".jsonloader").on("click", loadIndex);
-});
+//merge mystore object
+// if(window.mystore){
+    // window.mystore={
+        // ...window.mystore,
+        // ...mystore
+    // }
+// }else{
+    // window.mystore=mystore;
+// }
+ 
