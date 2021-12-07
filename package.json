@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/derplakatankleber/todolist#readme",
   "dependencies": {
-    "firebase": "^9.5.0"
+    "firebase": "^9.6.0"
   },
   "devDependencies": {
     "webpack-dev-server": "^4.6.0"
