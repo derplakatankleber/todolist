@@ -6,7 +6,7 @@
       "firebase-config.json",
       "**/.*",
       "**/node_modules/**",
-      "**/dist/**"
+      "/dist/**"
     ],
     "rewrites": [
       {
