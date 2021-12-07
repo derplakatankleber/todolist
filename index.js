@@ -20,3 +20,12 @@ console.log('firebase bind completed.');
 
 import './public/js/auth.js';
 import './public/js/firestore.js';
+
+import {downloadTimer, messageline} from './public/js/tools.js';
+
+window.tools = {};
+window.tools.timer = new downloadTimer();
+window.tools.message = new messageline();
+document.addEventListener('DOMContentLoaded', function() {
+    window.tools.timer.start(5, 1, "progressBar");
+});

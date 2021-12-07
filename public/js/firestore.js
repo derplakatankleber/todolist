@@ -11,6 +11,7 @@ export default class store{
     //db: getFirestore(), //in firebase-docu only called "db"
     db;
     indexMap={};
+    sortObj={};
     contentDoc;
     internalHtmlEditor;
     #user="";
@@ -66,6 +67,7 @@ export default class store{
     setIndexContainer(mapOfDocs){
         $(".indexContainer .items").empty();
         if(mapOfDocs && myapp){
+            this.sortObj = [];
             for (let key in mapOfDocs) {
                 let docItem = mapOfDocs[key];
                 let contentJSON = this.getJSONofDocument(docItem);
@@ -74,7 +76,8 @@ export default class store{
                     name = contentJSON["name"];
                 }
                 //$(".indexContainer .items").append('<p><a href="javascript:openDocument(\''+docItem.id+'\')" class="doc btn btn-secondary btn-sm stretched-link">'+name+'</a></p>');
-                $(".indexContainer .items").append('<button onclick="mystore.openDocument(\''+docItem.id+'\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">'+name+'</button>');
+                // $(".indexContainer .items").append('<button onclick="mystore.openDocument(\''+docItem.id+'\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">'+name+'</button>');
+                this.sortObj.push({"id":docItem.id,"name":name,"value":('<button onclick="mystore.openDocument(\''+docItem.id+'\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">'+name+'</button>')});
                 if(contentJSON["tags"] && contentJSON["tags"].length > 0){
                     let tagListS = contentJSON["tags"];
                     let tagList =[];
@@ -90,6 +93,14 @@ export default class store{
                         }
                     }
                 }
+            }
+            let collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+            this.sortObj.sort((a, b) => {
+                return collator.compare(a.name, b.name);
+            });
+            for (let id in this.sortObj) {
+                console.log('bla4: ' + id);
+                $(".indexContainer .items").append(this.sortObj[id].value);
             }
         }
     }

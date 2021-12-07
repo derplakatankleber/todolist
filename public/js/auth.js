@@ -54,12 +54,18 @@ export default class auth{
             $(".loginSuccess").addClass("hide");
             $(".loginfield").removeClass("hide");
             $(".containerUserEmail").text("");
+            location.reload();
         }).catch((error) => {
             // An error happened.
             console.log(error);
         });
     }
 
+    checkinput(e){
+        if (e.which == 13) {
+            this.login();
+        }
+    }
     // function doLoginOld(){
         // var ui = new firebaseui.auth.AuthUI(firebase.auth());
         // var uiConfig = {
