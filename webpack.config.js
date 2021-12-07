@@ -39,11 +39,11 @@ module.exports = {
           apply: (compiler) => {
             compiler.hooks.done.tap('DonePlugin', (compilation) => {
             //  try {
-                let files = fs.readdirSync(path.resolve(__dirname, 'dist/'));
-                for(let myfile of files){
-                    // fs.copyFileSync(path.resolve(__dirname, 'dist/'+myfile), path.resolve(__dirname, 'public/js/'+myfile));
-                    console.info("copy file: " +myfile );
-                }
+                // let files = fs.readdirSync(path.resolve(__dirname, 'dist/'));
+                // for(let myfile of files){
+                    // // fs.copyFileSync(path.resolve(__dirname, 'dist/'+myfile), path.resolve(__dirname, 'public/js/'+myfile));
+                    // console.info("copy file: " +myfile );
+                // }
                 console.info('\x1b[31m%s\x1b[0m',"done '"+ new Date().toString());
                 // console.info("pfad: " + path.resolve(__dirname, 'dist/'+outputFilename));
                 // fs.copyFileSync(path.resolve(__dirname, 'dist/'+outputFilename), path.resolve(__dirname, 'public/js/'+outputFilename));
