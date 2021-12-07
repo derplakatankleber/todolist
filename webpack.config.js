@@ -5,6 +5,10 @@ const { exec } = require('child_process');
 // let outputFilename= "firebase.js";
 const dev = process.env.NODE_ENV !== 'production'
 console.log("node env: '"+process.env.NODE_ENV+"'");
+const distFolder= path.resolve(__dirname, 'public/js/dist');
+if(fs.existsSync(distFolder)){
+    fs.mkdirSync(distFolder,{ recursive: true });
+}
 
 module.exports = {
   mode: 'development',
@@ -28,7 +32,7 @@ module.exports = {
     }
   },
   output: {
-    path: path.resolve(__dirname, 'public/js/dist'),
+    path: distFolder,
     filename: '[name].bundle.js',//outputFilename,
   },
   optimization: {
@@ -56,6 +60,16 @@ module.exports = {
                  // if (stdout) process.stdout.write(stdout);
                  // if (stderr) process.stderr.write(stderr);
                // });
+                fs.readdir(distFolder, (err, files) => {
+                  if (err)
+                    console.log(err);
+                  else{
+                    console.log("dist-directory files:");
+                    files.forEach(file => {
+                      console.log(file);
+                    })
+                  }
+                })
             });
           }
         }
