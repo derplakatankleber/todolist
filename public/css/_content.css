@@ -19,3 +19,20 @@
 .contentControlButton{
     margin: 0.3em;
 }
+.contentInfo{
+    display: inline;
+}
+.contentInfo .spinner{
+    animation-name: spin;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    display: inline-block;
+}
+.contentInfo progress{
+    width: 5em;
+}
+@keyframes spin {
+    from {transform:rotate(0deg);    }
+    to {transform:rotate(360deg);    }
+}

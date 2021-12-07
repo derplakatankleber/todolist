@@ -22,14 +22,16 @@ nav > .container-nav{
 #useridicon.auth{
     color: var(--header-text-color);
 }
-.navbar-brand{
+div a.navbar-brand{
     font-size: xx-large;
     text-decoration: none;
     color: var(--header-brand-color);
     padding: 5px;
+}
+.navbar-brand-div{
+    flex-basis: 100%;
     align-self: center;
     text-align: right;
-    flex-basis: 100%;
 }
 .navbar-toggler{
     align-self: center;

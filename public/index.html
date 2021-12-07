@@ -5,31 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>todonote</title>
 	<link rel="shortcut icon" type="image/jpg" href="favicon.ico"/>
-
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <!-- update the version number as needed -->
-<!--    <script defer src="/__/firebase/8.9.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-<!--    <script defer src="/__/firebase/8.9.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/8.9.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/8.9.0/firebase-firestore.js"></script>
-    <script defer src="/__/firebase/8.9.0/firebase-functions.js"></script>
-    <script defer src="/__/firebase/8.9.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/8.9.0/firebase-storage.js"></script>
-    <script defer src="/__/firebase/8.9.0/firebase-analytics.js"></script>
-    <script defer src="/__/firebase/8.9.0/firebase-remote-config.js"></script>
-    <script defer src="/__/firebase/8.9.0/firebase-performance.js"></script>
-	<!-- Initialize Firebase -->
-<!--	<script src="/__/firebase/init.js"></script>
 	<!-- indiv -->
     <link type="text/css" rel="stylesheet" href="./css/style.css" />
     <!--<script data-main="./js/thridparty.js" src="./thirdparty/requirejs.min.js"></script>-->
-    <script src="./js/firebase.js"></script>
+    <script src="./js/dist/runtime.bundle.js"></script>
+    <script src="./js/dist/jQuery.bundle.js"></script>
+    <script src="./js/dist/index.bundle.js"></script>
+    
     <!--<script type="module" src="./js/thridparty.js"></script>-->
     <script src="../thirdparty/sceditor/sceditor.min.js"></script>
     <script src="../js/draggable.js"></script>
     <script src="../js/indexFilter.js"></script>
+
+    <script src="../thirdparty/jquery.js"></script>
+    <script src="../thirdparty/flexdatalist/jquery.flexdatalist.min.js"></script>
+
   </head>
   <body class="h-100">
 	<nav class="navbar-custom">
@@ -39,8 +29,10 @@
             </div>
 			<div class="loginfield">
 				<div class="userpasswordContainer">
-					<input autocomplete="email" name="username" required="" type="email" class="emailInput rounded" value="" placeholder="email">
-					<input name="password" required="" type="password" class="passwordInput rounded" value="" placeholder="password">
+                    <form action="#" onsubmit="myapp.login()">
+                        <input autocomplete="email" name="username" required="" type="email" class="emailInput rounded" value="" placeholder="email" onkeypress="myapp.checkinput(event)">
+                        <input name="password" required="" type="password" class="passwordInput rounded" value="" placeholder="password" onkeypress="myapp.checkinput(event)">
+                    </form>
 				</div>
                 <div class="loginbuttonContainer">
 					<button class="loginbutton btn btn-light btn-sm" onclick="myapp.login()">sign&nbsp;in</button>
@@ -50,8 +42,11 @@
                  <span class="containerUserEmail"></span>
                  <button class="signoutButton btn btn-light btn-sm" onclick="myapp.logout()">sign&nbsp;out</button>
             </div>
-			<a class="navbar-brand" href="#">todolist</a>
-
+            <div class="navbar-spacer">
+            </div>
+            <div class="navbar-brand-div">
+                <a class="navbar-brand" href="#">todolist</a>
+            </div>
 		</div>
 	</nav>
     <div class="ContainerNavContent h-100">
@@ -69,14 +64,16 @@
                 <button class="saveDocument btn btn-primary btn-sm" onclick="mystore.saveDocument()"><i class="bi bi-save"></i> save document</button>
                 <button class="deleteDocument btn btn-primary btn-sm" onclick="mystore.deleteDocument()"><i class="bi bi-file-x"></i> delete document</button>
                 <button class="jsonloader btn btn-primary btn-sm" onclick="mystore.loadIndexlist()"><i class='bi bi-list-ol'></i> load index</button>
+                <div class="contentInfo" id="contentInfo" style="display: none;">
+                    <div class="spinner">
+                        <i class="bi bi-arrow-clockwise spinner"></i>
+                    </div>
+                    <span class="contentInfoText" id="contentInfoText">Meldung</span>
+                    <progress value="0" max="5" id="progressBar"></progress>
+                </div>
             </div>
             <div class="docContainer"></div>
-            <!--<div id="message">
-              <h2>Welcome me</h2>
-             </div>
-            <p id="load">loading</p><p></p>-->
             <div id="firebaseui-auth-container"></div>
-            <!--<div id="loader">Loading...</div>-->
         </div>
 	</div>
     <script>
