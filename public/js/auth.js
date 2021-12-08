@@ -1,5 +1,6 @@
-import { signOut, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signOut, getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import {loadIndex} from "./firestore.js";
+import {fbLogger} from "./logFirebase.js";
 import * as $ from '../thirdparty/jquery.js';
 window.jQuery = $;
 window.$ = $;
@@ -20,20 +21,30 @@ export default class auth{
         let email= $(".emailInput").val();
         let pass= $(".passwordInput").val();
         if(email !== "" && pass !== ""){
-            signInWithEmailAndPassword(getAuth(),email, pass)
-              .then((userCredential) => {
-                // Signed in
-                this.alreadyLoggedIn(userCredential.user);
-              })
-              .catch((error) => {
+            let authObj = getAuth();
+            setPersistence(authObj, browserSessionPersistence).then(()=>{
+                signInWithEmailAndPassword(authObj,email, pass)
+                  .then((userCredential) => {
+                    fbLogger("login",{"email":userCredential.user.email, "name":"EmailAndPassword","uid":userCredential.user.uid});
+                    // Signed in
+                    this.alreadyLoggedIn(userCredential.user);
+                  }).catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(errorMessage);
+                  });
+            }).catch((error)=>{
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 alert(errorMessage);
-              });
+            });
         }
     }
 
     alreadyLoggedIn(user){
+        if(!user || !user.uid){
+           user = getAuth().currentUser;
+        }
         if(user && user.uid){
             window.myapp.user = user;
             $("#useridicon").addClass("auth");
