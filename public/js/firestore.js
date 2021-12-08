@@ -99,7 +99,7 @@ export default class store{
                 return collator.compare(a.name, b.name);
             });
             for (let id in this.sortObj) {
-                console.log('bla4: ' + id);
+                // console.log('bla4: ' + id);
                 $(".indexContainer .items").append(this.sortObj[id].value);
             }
         }

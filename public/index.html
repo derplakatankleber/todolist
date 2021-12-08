@@ -85,7 +85,9 @@
                     console.log("select element " + elements[0]);
                 }
                 console.log("try to select element");
-                if(myapp && typeof myapp.login =="function"){
+                if(myapp && typeof myapp.alreadyLoggedIn =="function"){
+                    myapp.alreadyLoggedIn();
+                }else if(myapp && typeof myapp.login =="function"){
                     myapp.login();
                 }
             },5000);
