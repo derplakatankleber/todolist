@@ -6,6 +6,11 @@ const { exec } = require('child_process');
 const dev = process.env.NODE_ENV !== 'production'
 console.log("node env: '"+process.env.NODE_ENV+"'");
 console.log("env: "+ JSON.stringify(process.env));
+if(process.env.TESTING){
+	console.log("testing1 env: '"+process.env.TESTING.length()+"'");
+}
+console.log("testing env: '"+process.env.TESTING+"'");
+console.log("firebase env: '"+process.env.FIREBASE_CONFIG+"'");
 // let fb_config=process.env.FIREBASE_CONFIG;
 // console.log("firebase config: '"+fb_config+"'");
 // if(fb_config){
