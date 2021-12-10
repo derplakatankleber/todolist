@@ -19,7 +19,7 @@ jobs:
       - name: run build
         id: step_two
 
-        run: npm run build --production
+        run: npm run build --production --FIREBASE_CONFIG $FIREBASE_CONFIG
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
