@@ -23,7 +23,7 @@ jobs:
         run: |
             echo $FIREBASE_CONFIG > firebase-config.json
             echo $TESTING > testing.txt
-            cat testing.txt
+            #cat testing.txt
             npm run build --production
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
