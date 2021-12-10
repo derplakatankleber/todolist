@@ -7,7 +7,7 @@ const dev = process.env.NODE_ENV !== 'production'
 console.log("node env: '"+process.env.NODE_ENV+"'");
 // console.log("env: "+ JSON.stringify(process.env));
 if(fs.existsSync(path.resolve(__dirname, 'testing.txt'))){
-	let bla = fs.readFileSy(path.resolve(__dirname, 'testing.txt'))
+	let bla = fs.readFileSync(path.resolve(__dirname, 'testing.txt'))
 	console.log("testing1 env: '"+new String(bla).length+"'");
 	console.log("testing2 env: '"+bla+"'");
 }
