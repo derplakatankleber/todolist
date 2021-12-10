@@ -6,8 +6,9 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - master
-#env:
-#  FIREBASE_CONFIG: '${{ secrets.FIREBASE_CONFIG }}'
+env:
+  FIREBASE_CONFIG: '${{ secrets.FIREBASE_CONFIG }}'
+  TESTING: '${{ secrets.TESTING }}'
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
