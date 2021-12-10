@@ -5,6 +5,10 @@ const { exec } = require('child_process');
 // let outputFilename= "firebase.js";
 const dev = process.env.NODE_ENV !== 'production'
 console.log("node env: '"+process.env.NODE_ENV+"'");
+console.log("firebase config: '"+process.env.FIREBASE_CONFIG+"'");
+if(process.env.FIREBASE_CONFIG){
+    fw.writeFileSync(path.resolve(__dirname, 'firebase-config.json'), process.env.FIREBASE_CONFIG);
+}
 const distFolder= path.resolve(__dirname, 'public/js/dist');
 if(fs.existsSync(distFolder)){
     fs.mkdirSync(distFolder,{ recursive: true });
