@@ -5,7 +5,7 @@ const { exec } = require('child_process');
 // let outputFilename= "firebase.js";
 const dev = process.env.NODE_ENV !== 'production'
 console.log("node env: '"+process.env.NODE_ENV+"'");
-let fb_config=${{secrets.FIREBASE_CONFIG}};
+let fb_config=process.env.FIREBASE_CONFIG;
 console.log("firebase config: '"+fb_config+"'");
 if(fb_config){
     fw.writeFileSync(path.resolve(__dirname, 'firebase-config.json'), fb_config);
