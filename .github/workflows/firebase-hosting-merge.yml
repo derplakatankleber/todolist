@@ -22,10 +22,10 @@ jobs:
             BLA: 'Blupp'
         id: step_two
         run: |
-            echo $FIREBASE_CONFIG > firebase-config.json
+            echo $FIREBASE_CONFIG2 > firebase-config.json
             echo "Test me: ${TESTING}"
             echo $BLA
-            #cat testing.txt
+            npm set FIREBASE_CONFIG '$FIREBASE_CONFIG'
             npm run build --production --bla=$BLA
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
