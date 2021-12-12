@@ -22,7 +22,7 @@ jobs:
             BLA: 'Blupp'
         id: step_two
         run: |
-            echo $FIREBASE_CONFIG2 > firebase-config.json
+            #echo $FIREBASE_CONFIG2 > firebase-config.json
             echo "Test me: ${TESTING}"
             echo $BLA
             npm set FIREBASE_CONFIG '$FIREBASE_CONFIG'
