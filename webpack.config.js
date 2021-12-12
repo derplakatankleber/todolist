@@ -3,7 +3,7 @@ const fs = require('fs');
 const { exec } = require('child_process');
 
 // let outputFilename= "firebase.js";
-let dev = development
+let dev = "development";
 if(process.env.NODE_ENV){
     dev = process.env.NODE_ENV;
 }
