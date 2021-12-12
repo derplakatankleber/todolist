@@ -5,6 +5,8 @@ const { exec } = require('child_process');
 // let outputFilename= "firebase.js";
 const dev = process.env.NODE_ENV !== 'production'
 console.log("node env: '"+process.env.NODE_ENV+"'");
+console.log("bla env: '"+process.env.npm_config_bla+"'");
+
 // console.log("env: "+ JSON.stringify(process.env));
 if(fs.existsSync(path.resolve(__dirname, 'testing.txt'))){
 	let bla = fs.readFileSync(path.resolve(__dirname, 'testing.txt'))
