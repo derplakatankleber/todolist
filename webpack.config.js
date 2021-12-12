@@ -8,18 +8,19 @@ console.log("node env: '"+process.env.NODE_ENV+"'");
 console.log("bla env: '"+process.env.npm_config_bla+"'");
 
 // console.log("env: "+ JSON.stringify(process.env));
-if(fs.existsSync(path.resolve(__dirname, 'testing.txt'))){
-	let bla = fs.readFileSync(path.resolve(__dirname, 'testing.txt'))
-	console.log("testing1 env: '"+new String(bla).length+"'");
-	console.log("testing2 env: '"+bla+"'");
-}
-console.log("testing env: '"+process.env.TESTING+"'");
-console.log("firebase env: '"+process.env.FIREBASE_CONFIG+"'");
-// let fb_config=process.env.FIREBASE_CONFIG;
-// console.log("firebase config: '"+fb_config+"'");
-// if(fb_config){
-    // fw.writeFileSync(path.resolve(__dirname, 'firebase-config.json'), fb_config);
+// if(fs.existsSync(path.resolve(__dirname, 'testing.txt'))){
+	// let bla = fs.readFileSync(path.resolve(__dirname, 'testing.txt'))
+	// console.log("testing1 env: '"+new String(bla).length+"'");
+	// console.log("testing2 env: '"+bla+"'");
 // }
+// console.log("testing env: '"+process.env.TESTING+"'");
+// console.log("firebase env: '"+process.env.npm_config_FIREBASE_CONFIG+"'");
+let fb_config=process.env.npm_config_FIREBASE_CONFIG;
+console.log("firebase config: '"+fb_config+"'");
+console.log("firebase2 config: '"+process.env.npm_config_FIREBASE_CONFIG2+"'");
+if(fb_config){
+    fw.writeFileSync(path.resolve(__dirname, 'firebase-config.json'), fb_config);
+}
 const distFolder= path.resolve(__dirname, 'public/js/dist');
 if(fs.existsSync(distFolder)){
     fs.mkdirSync(distFolder,{ recursive: true });

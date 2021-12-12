@@ -17,15 +17,16 @@ jobs:
       - name: run build
         env:
             FIREBASE_CONFIG: ${{ toJson(secrets.FIREBASE_CONFIG) }}
+            FIREBASE_CONFIG2: ${{ secrets.FIREBASE_CONFIG }}
             TESTING: ${{ secrets.TESTING }}
             BLA: 'Blupp'
         id: step_two
         run: |
-            echo $FIREBASE_CONFIG > firebase-config.json
-            echo $TESTING > testing.txt
+            #echo $FIREBASE_CONFIG > firebase-config.json
+            #echo $TESTING > testing.txt
             echo $BLA
             #cat testing.txt
-            npm run build --production --bla=$BLA
+            npm run build --production --bla=$BLA --FIREBASE_CONFIG=$FIREBASE_CONFIG2 --FIREBASE_CONFIG2=$FIREBASE_CONFIG
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
