@@ -3,7 +3,10 @@ const fs = require('fs');
 const { exec } = require('child_process');
 
 // let outputFilename= "firebase.js";
-const dev = process.env.NODE_ENV !== 'production'
+let dev = development
+if(process.env.NODE_ENV){
+    dev = process.env.NODE_ENV;
+}
 console.log("node env: '"+process.env.NODE_ENV+"'");
 console.log("bla env: '"+process.env.npm_config_bla+"'");
 
@@ -27,7 +30,7 @@ if(fs.existsSync(distFolder)){
 }
 
 module.exports = {
-  mode: 'development',
+  mode: dev,
   // watch: true,
   watchOptions: {
     ignored: ['**/dist/*.js','**/bundle*.js', '**/node_modules'],
@@ -91,5 +94,5 @@ module.exports = {
         }
     ],
   //devtool: dev ? 'eval-cheap-module-source-map' : 'source-map',
-  devtool: 'inline-source-map',
+  devtool: dev =='development' ? 'inline-source-map': 'source-map',
 };
