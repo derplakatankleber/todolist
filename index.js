@@ -29,3 +29,5 @@ window.tools.message = new messageline();
 document.addEventListener('DOMContentLoaded', function() {
     window.tools.timer.start(5, 1, "progressBar");
 });
+
+import "./public/css/style.css"
