@@ -8,9 +8,11 @@ export default class htmlEditorC{
         plugins: 'undo,plaintext',
         format: 'xhtml',
         //toolbar: 'bold,italic,underline|source',
+        toolbarExclude: 'table,horizontalrule,image,email,emoticon,youtube,ltr,rtl',
         emoticonsRoot: '../thirdparty/sceditor/',
         emoticonsEnabled: 'false',
         style: '../thirdparty/sceditor/themes/content/default.min.css',
+        id: 'myHtmlEditor',
     };   
     
     getHtmlTextarea(){
