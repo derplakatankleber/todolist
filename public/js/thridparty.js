@@ -49,7 +49,7 @@ let thirdpartyloader ={
 
     },
 
- loadJavascriptFile: function(targeturl, success){
+ /* loadJavascriptFile: function(targeturl, success){
 
     requirejs([targeturl], function(bla) {
        console.log("Script loaded. " + targeturl);
@@ -97,7 +97,7 @@ let thirdpartyloader ={
                 exports: 'firebase'
             },
         }
-    });
+    }); */
 }
 //loadJavascriptFile("sceditor");	
 //loadJavascriptFile("flexdatalist");

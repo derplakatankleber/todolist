@@ -4,6 +4,8 @@ import {getFirestore,query,getDocs,collection, doc, getDoc,addDoc, deleteDoc, se
 import * as $ from '../thirdparty/jquery.js';
 import htmlEditorC from './startEditor.js'
 // import auth from from './auth.js'
+import {fbLogger} from "./logFirebase.js";
+
 
 export default class store{
     mycollectionName= "testdb";
@@ -208,6 +210,8 @@ export default class store{
             try{
                 await setDoc(doc(this.db,this.mycollectionName,id), mydoc);
                 console.log("Document successfully written!");
+                this.showMessage("Saved: '"+doctitle+"'");
+                fbLogger("saveItem","User:'"+this.#user+"' Item:'"+id+"'");
                 if(reloadIndex){
                     this.loadIndexlist();
                 }
@@ -230,6 +234,8 @@ export default class store{
             try {
                 let docRef = await addDoc(collection(this.db, this.mycollectionName), mydoc);
                 console.log("Document written with ID: ", docRef.id);
+                this.showMessage("Saved: '"+docRef.id+"'");
+                fbLogger("saveItem","User:'"+this.#user+"' Item:'"+id+"'");
                 this.contentDoc = docRef;
                 this.reopenSelectedDocument();
             }catch(error){
@@ -254,6 +260,8 @@ export default class store{
         if(this.contentDoc.id && this.contentDoc){
             deleteDoc(doc(this.db,this.mycollectionName, this.contentDoc.id)).then(() => {
                 console.log("Document successfully deleted!");
+                this.showMessage("Deleted: '"+this.contentDoc.id+"'");
+                fbLogger("saveItem","User:'"+this.#user+"' Item:'"+this.contentDoc.id+"'");
                 //clear doc view
                 this.clearDocumentView();
                 //reload doc index
@@ -266,6 +274,13 @@ export default class store{
 
     clearDocumentView(){
         $(".docContainer").empty();
+    }
+
+    showMessage(msg){
+        console.log(msg);
+        if(tools && tools.message && tools.message.showDefault){
+            tools.message.showDefault(msg, 10);
+        }
     }
 };
 
