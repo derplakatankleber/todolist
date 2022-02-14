@@ -1,7 +1,12 @@
 .ContainerNavContent{
     background-color: var(--navigation-container-bg-color);
     display: flex;
+    flex-direction: column;
+}
+.ContainerGrow{
     flex-direction: row;
+    display: flex;
+    min-height: calc(100vh - 65px);
 }
 
 .indexContainer{

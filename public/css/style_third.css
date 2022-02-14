@@ -3,3 +3,6 @@
 
 /* bootstrap icons */
 @import url("../thirdparty/bootstrap-icons/bootstrap-icons.css");
+
+/* flexdatalist stylesheet */
+@import url("../thirdparty/flexdatalist/jquery.flexdatalist.min.css");

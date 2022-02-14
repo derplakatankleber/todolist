@@ -3,7 +3,7 @@ nav {
     background-color: var(--header-bg-color);
 }
 nav > .container-nav{
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: row; 
   

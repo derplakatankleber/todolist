@@ -49,6 +49,7 @@ module.exports = {
     // },
     jQuery: {
       import: './public/thirdparty/jquery.js',
+      // import: './public/thirdparty/flexdatalist/jquery.flexdatalist.min.js',
     }
   },
   output: {
