@@ -34,6 +34,10 @@ export class shortcuts {
                 alert("Ctrl + Alt + Shift + U shortcut combination was pressed");
             }
         }
+        // if (e.key == "Tab") {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        // }
     }
     addShortcut() {
         document.onkeydown = this.shortcutAction;
