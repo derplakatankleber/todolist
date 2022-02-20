@@ -81,7 +81,7 @@ export default class store {
                 }
                 //$(".indexContainer .items").append('<p><a href="javascript:openDocument(\''+docItem.id+'\')" class="doc btn btn-secondary btn-sm stretched-link">'+name+'</a></p>');
                 // $(".indexContainer .items").append('<button onclick="mystore.openDocument(\''+docItem.id+'\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">'+name+'</button>');
-                this.sortObj.push({ "id": docItem.id, "name": name, "value": ('<button onclick="mystore.openDocument(\'' + docItem.id + '\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">' + name + '</button>') });
+                this.sortObj.push({ "id": docItem.id, "name": name, "value": ('<button onclick="mystore.clickEventOpen(event,this)" data-id="' + docItem.id + '" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">' + name + '</button>') });
                 if (contentJSON["tags"] && contentJSON["tags"].length > 0) {
                     let tagListS = contentJSON["tags"];
                     let tagList = [];
@@ -303,13 +303,36 @@ export default class store {
             tools.message.showDefault(msg, 10);
         }
     }
+
+    clickEventOpen(e, htmlelement) {
+        //event to open a document in the contentarea or in a neq window
+        console.log("open: " + e);
+        let docid = "";
+        if (htmlelement && htmlelement.getAttribute("data-id") && mystore) {
+            docid = htmlelement.getAttribute("data-id");
+            if (e && (e.shiftKey || e.ctrlKey)) {
+                console.log("open page " + docid);
+                let url = new URL(location.href);
+                url.hash = "";
+                url.search = "";
+                url.searchParams.set("docid", docid);
+                window.open(url, "_blank");
+                return;
+            }
+            mystore.openDocument(docid);
+        }
+    }
 };
 
 
-export function loadIndex(userid) {
+export function loadIndex(userid, docid) {
     window.mystore = new store(userid);
     window.mystore.loadIndexlist();
+    if (docid) {
+        window.mystore.openDocument(docid);
+    }
 }
+
 
 //merge mystore object
 // if(window.mystore){
