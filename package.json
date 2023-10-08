@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx webpack",
     "test": "firebase emulators:start",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "all": "npm run build && npm run deploy"
   },
   "repository": {
     "type": "git",
@@ -19,13 +20,13 @@
   },
   "homepage": "https://github.com/derplakatankleber/todolist#readme",
   "dependencies": {
-    "firebase": "^9.6.0"
+    "firebase": ">=9.6.0"
   },
   "devDependencies": {
-    "css-loader": "^6.5.1",
-    "mini-css-extract-plugin": "^2.4.5",
-    "style-loader": "^3.3.1",
-    "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.6.0"
+    "css-loader": ">=6.5.1",
+    "mini-css-extract-plugin": ">=2.4.5",
+    "style-loader": ">=3.3.1",
+    "webpack-cli": ">=4.9.1",
+    "webpack-dev-server": ">=4.6.0"
   }
 }

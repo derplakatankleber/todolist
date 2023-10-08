@@ -1,12 +1,14 @@
 //TODO: check for login and connection
 //TODO: flat objects for doc
-import { getFirestore, query, getDocs, collection, doc, getDoc, addDoc, deleteDoc, setDoc } from 'firebase/firestore';
+// import { getFirestore, query, getDocs, collection, doc, getDoc, addDoc, deleteDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, query, getDocs, collection, doc, getDoc, addDoc, deleteDoc, setDoc } from './firebase.js';
 import * as $ from '../thirdparty/jquery.js';
 //import {$,jQuery} from '../thirdparty/jquery.js';
 // import flexdatalist from '../thirdparty/flexdatalist/jquery.flexdatalist.min.js'
 import htmlEditorC from './startEditor.js'
 // import auth from from './auth.js'
 import { fbLogger } from "./logFirebase.js";
+import { downloader } from './tools.js';
 
 
 export default class store {
@@ -241,10 +243,12 @@ export default class store {
             }
         } else {
             //new object
-            let name = "";
+            let name = "_newDocument";
             if ($(".contentName").val()) { name = $(".contentName").val(); }
             mydoc.name = name;
             let content = this.getDocumentContent();
+            if (typeof content === "undefined")
+                content = "";
             mydoc.content = content;
             mydoc.lastaccess = new Date().toISOString();
             mydoc.modified = new Date().toISOString();
@@ -297,6 +301,68 @@ export default class store {
         $(".docContainer").empty();
     }
 
+    downloadDoc() {
+        if (this.contentDoc.id && this.contentDoc && downloader) {
+            let doc = this.getJSONofDocument(this.contentDoc);
+            new downloader().downloadJSON(JSON.stringify(doc), doc.name);
+        }
+    }
+
+    uploadDoc() {
+        // if (document.querySelector("#uploadFileDia")) {
+        //     let elem = document.querySelector("#uploadFileDia");
+        //     elem.parentElement.remove(elem);
+        // }
+        // // const inputForm = document.createElement("form");
+        // const input = document.createElement("input");
+        // input.tpye = "file";
+        // input.id = "uploadFileDia";
+        // input.style = "display:none;";
+        // // inputForm.append(input);
+        // document.body.append(input);
+        let input = document.querySelector(".uploadFileDia");
+        input.onchange = (event) => {
+            const selectedFile = input.files[0];
+            console.log(selectedFile);
+            var reader = new FileReader();
+            reader.addEventListener(
+                "load",
+                () => {
+                    // this will then display a text file
+                    console.log(reader.result);
+                },
+                false,
+            );
+
+            if (selectedFile) {
+                reader.readAsText(selectedFile);
+            }
+            // document.body.remove(input);
+        }
+        // form.onsubmit = e => {
+        //     e.preventDefault();
+        //     const fd = new FormData();
+        //     const props = {};
+        //     for (let element of form.elements) {
+        //         if (element.type !== "submit") {
+        //             props[element.name] = element.value;
+        //             fd.append(element.name, element.value);
+        //         }
+        //     }
+
+        //     for (let [key, prop] of fd) {
+        //         console.log(key, prop)
+        //     }
+
+        //     const json = JSON.stringify(props);
+        //     console.log(json);
+        // }
+        // const openFileDialog = () => {
+        //     document.querySelector("#uploadFileDia").click();
+        // }
+        // openFileDialog();
+    }
+
     showMessage(msg) {
         console.log(msg);
         if (tools && tools.message && tools.message.showDefault) {
@@ -336,10 +402,10 @@ export function loadIndex(userid, docid) {
 
 //merge mystore object
 // if(window.mystore){
-    // window.mystore={
-        // ...window.mystore,
-        // ...mystore
-    // }
+// window.mystore={
+// ...window.mystore,
+// ...mystore
+// }
 // }else{
-    // window.mystore=mystore;
+// window.mystore=mystore;
 // }

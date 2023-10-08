@@ -56,7 +56,11 @@ export default class htmlEditorC {
     }
 
     isActive() {
-        if (typeof this.getSCEditorInstance() == "undefined") {
+        if (this.getHtmlTextarea().length > 0) {
+            if (typeof this.getSCEditorInstance() == "undefined") {
+                this.active = false;
+            }
+        } else {//no Editor launched
             this.active = false;
         }
         return this.active;

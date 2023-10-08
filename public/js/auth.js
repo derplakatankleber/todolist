@@ -1,4 +1,5 @@
-import { signOut, getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence, browserLocalPersistence } from "firebase/auth";
+// import { signOut, getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence, browserLocalPersistence } from "firebase/auth";
+import { signOut, getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence, browserLocalPersistence } from "./firebase.js";
 import { loadIndex, openDocument } from "./firestore.js";
 import { fbLogger } from "./logFirebase.js";
 import * as $ from '../thirdparty/jquery.js';

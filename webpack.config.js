@@ -40,13 +40,18 @@ module.exports = {
     index: {
       import: './index.js',
       // dependOn: 'firebase',
+      dependOn: 'firebase',
+    },
+    firebase: {
+      //  import: ['firebase/app','firebase/auth','firebase/firestore'],
+      import: './public/js/firebase.js',
+      dependOn: 'firebaseStore',
+    },
+    firebaseStore: {
+      //  import: ['firebase/app','firebase/auth','firebase/firestore'],
+      import: './public/js/firebaseStore.js',
       dependOn: 'jQuery',
     },
-    // firebase:{
-    // import: ['firebase/app','firebase/auth','firebase/firestore'],
-    // //import: 'indexFirebase.js',
-    // dependOn: 'jQuery',
-    // },
     jQuery: {
       import: './public/thirdparty/jquery.js',
       // import: './public/thirdparty/flexdatalist/jquery.flexdatalist.min.js',
@@ -58,6 +63,7 @@ module.exports = {
   },
   optimization: {
     runtimeChunk: 'single',
+    minimize: true,
   },
   plugins: [
     {
@@ -113,5 +119,6 @@ module.exports = {
     ],
   },
   //devtool: dev ? 'eval-cheap-module-source-map' : 'source-map',
-  devtool: dev == 'development' ? 'inline-source-map' : 'source-map',
+  // devtool: dev == 'development' ? 'inline-source-map' : 'source-map',
+  devtool: 'source-map',
 };

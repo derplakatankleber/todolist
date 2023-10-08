@@ -13,6 +13,8 @@
     <script src="./js/dist/runtime.bundle.js"></script>
     <script src="./js/dist/jQuery.bundle.js"></script>
     <script src="./js/dist/index.bundle.js"></script>
+    <script src="./js/dist/firebase.bundle.js"></script>
+    <script src="./js/dist/firebaseStore.bundle.js"></script>
 
     <!--<script type="module" src="./js/thridparty.js"></script>-->
     <script src="../thirdparty/sceditor/sceditor.min.js"></script>
@@ -74,6 +76,13 @@
                             class="bi bi-file-x"></i> delete document</button>
                     <button class="jsonloader btn btn-primary btn-sm" onclick="mystore.loadIndexlist()"><i
                             class='bi bi-list-ol'></i> load index</button>
+                    <button class="donwloadDoc btn btn-primary btn-sm" onclick="mystore.downloadDoc()"><i
+                            class='bi bi-box-arrow-in-right'></i> download note</button>
+                    <label for="uploadFileDia" class="btn btn-primary btn-sm custom-file-input">
+                        <i class='bi bi-box-arrow-in-left'></i> upload note
+                    </label>
+                    <input type="file" class="uploadFileDia" onclick="mystore.uploadDoc()" style="display:none"
+                        id="uploadFileDia"></input>
                     <div class="contentInfo" id="contentInfo" style="display: none;">
                         <div class="spinner">
                             <i class="bi bi-arrow-clockwise spinner"></i>
