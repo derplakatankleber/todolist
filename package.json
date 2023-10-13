@@ -6,8 +6,9 @@
   "scripts": {
     "build": "npx webpack",
     "test": "firebase emulators:start",
-    "deploy": "firebase deploy",
-    "all": "npm run build && npm run deploy"
+    "deploy": "npm run comment && firebase deploy",
+    "all": "npm run build && npm run deploy",
+    "comment": "echo 'don´t forget to install ´npm -g firebase-tools´ to deploy'"
   },
   "repository": {
     "type": "git",

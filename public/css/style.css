@@ -1,5 +1,6 @@
 /* imports for viewable segments */
 @import url("_header.css");
+@import url("_footer.css");
 @import url("_nav.css");
 @import url("_content.css");
 
@@ -14,13 +15,13 @@
   --header-text-color: lightgreen;
   --header-bg-color: grey;
   --header-brand-color: white;
-  
+
   --navigation-separator-color: grey;
   --navigation-bg-color: yellow;
   --navigation-container-bg-color: white;
-  
+
   --content-container-bg-color: lightgreen;
-  
+
 }
 
 /* 

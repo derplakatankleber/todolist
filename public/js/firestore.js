@@ -12,7 +12,8 @@ import { downloader } from './tools.js';
 
 
 export default class store {
-    mycollectionName = "testdb";
+    // mycollectionName = "testdb";
+    mycollectionName = "users/#user/notes";
     tagItemList = [];
     //db: getFirestore(), //in firebase-docu only called "db"
     db;
@@ -23,6 +24,7 @@ export default class store {
     #user = "";
     constructor(uid) {
         this.#user = uid;
+        this.mycollectionName = "users/" + uid + "/notes";
     }
 
     initFirestore() {
@@ -39,6 +41,25 @@ export default class store {
         }
         return this.internalHtmlEditor;
     }
+
+    async docExist(docid) {
+        let rV = false;
+        if (docid && myapp && docid !== null) {
+            if (!this.db) {
+                this.initFirestore();//db = getFirestore();//in docu only called "db"
+            }
+            const q = query(collection(this.db, this.mycollectionName));
+            const querySnapshot = await getDocs(q);
+            this.indexMap = {};
+            querySnapshot.forEach((doc) => {
+                if (doc.id === docid) {
+                    rV = true;
+                }
+            });
+        }
+        return rV;
+    }
+
     async loadIndexlist() {
         if (myapp) {
             //this.user.uid
@@ -213,8 +234,8 @@ export default class store {
     async saveDocument() {
         let mydoc = {};
         let id = "";
+        let reloadIndex = false;
         if (this.contentDoc && this.contentDoc.id) {
-            let reloadIndex = false;
             //existing object
             id = this.contentDoc.id;
             //copy attributes
@@ -230,17 +251,7 @@ export default class store {
             if ($("input.contentTags").length > 0 && $("input.contentTags")[0].value.length > 0) {
                 mydoc.tags = $("input.contentTags")[0].value.split(",");
             }
-            try {
-                await setDoc(doc(this.db, this.mycollectionName, id), mydoc);
-                console.log("Document successfully written!");
-                this.showMessage("Saved: '" + doctitle + "'");
-                fbLogger("saveItem", "User:'" + this.#user + "' Item:'" + id + "'");
-                if (reloadIndex) {
-                    this.loadIndexlist();
-                }
-            } catch (error) {
-                console.error("Error writing document: ", error);
-            }
+            await this.saveDocIntern(id, mydoc, reloadIndex);
         } else {
             //new object
             let name = "_newDocument";
@@ -256,11 +267,29 @@ export default class store {
             mydoc.owner = this.#user;
             mydoc.type = "note";
             mydoc.tags = [];
+            await this.saveDocIntern(null, mydoc, reloadIndex);
+        }
+    }
+
+    async saveDocIntern(id, mydoc, reloadIndex) {
+        if (await this.docExist(id)) {
+            try {
+                await setDoc(doc(this.db, this.mycollectionName, id), mydoc);
+                console.log("Document successfully written!");
+                this.showMessage("Saved: '" + mydoc.name + "'");
+                fbLogger("saveItem", "User:'" + this.#user + "' Item:'" + id + "'");
+                if (reloadIndex) {
+                    this.loadIndexlist();
+                }
+            } catch (error) {
+                console.error("Error writing document: ", error);
+            }
+        } else {
             try {
                 let docRef = await addDoc(collection(this.db, this.mycollectionName), mydoc);
                 console.log("Document written with ID: ", docRef.id);
                 this.showMessage("Saved: '" + docRef.id + "'");
-                fbLogger("saveItem", "User:'" + this.#user + "' Item:'" + id + "'");
+                fbLogger("saveItem", "User:'" + this.#user + "' Item:'" + docRef.id + "'");
                 this.contentDoc = docRef;
                 this.reopenSelectedDocument();
             } catch (error) {
@@ -268,6 +297,7 @@ export default class store {
             }
         }
     }
+
     reopenSelectedDocument() {
         this.loadIndexlist();
         this.openDocument(mystore.contentDoc.id);
@@ -322,6 +352,9 @@ export default class store {
         // document.body.append(input);
         let input = document.querySelector(".uploadFileDia");
         input.onchange = (event) => {
+            if (input.files.length < 1) {
+                return;
+            }
             const selectedFile = input.files[0];
             console.log(selectedFile);
             var reader = new FileReader();
@@ -329,13 +362,16 @@ export default class store {
                 "load",
                 () => {
                     // this will then display a text file
-                    console.log(reader.result);
+                    // console.log(reader.result);
+                    let docJSON = JSON.parse(reader.result);
+                    this.saveDocIntern(docJSON.id, docJSON, true);
                 },
                 false,
             );
 
             if (selectedFile) {
                 reader.readAsText(selectedFile);
+                input.value = "";
             }
             // document.body.remove(input);
         }
