@@ -51,13 +51,18 @@ export class messageline {
 
 export class downloader {
 
-    downloadJSON(content, filename) {
+    cleanName(filename) {
         if (typeof filename === "undefined") {
             filename = new Date().toISOString() + "_" + window.location.hostname;
         }
         if (filename) {
             filename = filename.trim().replace(/([^\dA-Za-z.]+)/ig, "_");
         }
+        return filename;
+    }
+
+    downloadJSON(content, filename) {
+        filename = this.cleanName(filename);
         if (!filename.endsWith(".json")) {
             filename += ".json";
         }
@@ -70,12 +75,7 @@ export class downloader {
     }
 
     downloadZip(content, filename) {
-        if (typeof filename === "undefined") {
-            filename = new Date().toISOString() + "_" + window.location.hostname;
-        }
-        if (filename) {
-            filename = filename.trim().replace(/([^\dA-Za-z.]+)/ig, "_");
-        }
+        filename = this.cleanName(filename);
         if (!filename.endsWith(".zip")) {
             filename += ".zip";
         }

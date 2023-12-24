@@ -10,6 +10,7 @@ import htmlEditorC from './startEditor.js'
 import { fbLogger } from "./logFirebase.js";
 import { downloader } from './tools.js';
 import { sortIndex, filterIndexInput } from './noteIndex.js'
+import * as JSZip from '../thirdparty/jszip.min.js';
 
 export default class store {
     // mycollectionName = "testdb";
@@ -344,12 +345,13 @@ export default class store {
     }
 
     downloadAllDocs() {
-        if (JSZip) {
+        if (JSZip && downloader) {
             const zip = new JSZip();
-            for (let key in indexMap) {
+            let downl = new downloader();
+            for (let key in this.indexMap) {
                 let doc = this.indexMap[key];
-                let jdoc = this.getJSONofDocument(this.contentDoc);
-                zip.file(jdoc.name, JSON.stringify(jdoc));
+                let jdoc = this.getJSONofDocument(doc);
+                zip.file(downl.cleanName(jdoc.name) + ".json", JSON.stringify(jdoc), { compression: "DEFLATE" });
             }
             zip.generateAsync({ type: "base64" }).then(function (base64) {
                 window.location = "data:application/zip;base64," + base64;
@@ -364,6 +366,27 @@ export default class store {
         if (this.contentDoc.id && this.contentDoc && downloader) {
             let doc = this.getJSONofDocument(this.contentDoc);
             new downloader().downloadJSON(JSON.stringify(doc), doc.name);
+        }
+    }
+
+    uploadDocs(selectedFile) {
+        if (JSZip && selectedFile) {
+            var zip = new JSZip();
+            var counter = 0;
+            zip.loadAsync(selectedFile).then((zip) => {
+                // process ZIP file content here
+                zip.forEach((relativePath, zipEntry) => {  // 2) print entries
+                    counter++;
+                    zipEntry.async("string").then((content) => {
+                        let docJSON = JSON.parse(content);
+                        this.saveDocIntern(docJSON.id, docJSON, false, true);
+                        if (counter === zip.length) {
+                            alert('done');
+                            this.loadIndexlist();
+                        }
+                    });
+                });
+            }).error(() => { alert("Not a valid zip file") });
         }
     }
 
@@ -386,6 +409,10 @@ export default class store {
             }
             const selectedFile = input.files[0];
             console.log(selectedFile);
+            if (selectedFile.name.endsWith(".zip")) {
+                this.uploadDocs(selectedFile);
+                return;
+            }
             var reader = new FileReader();
             reader.addEventListener(
                 "load",
