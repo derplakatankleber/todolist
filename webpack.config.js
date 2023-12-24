@@ -55,6 +55,12 @@ module.exports = {
     jQuery: {
       import: './public/thirdparty/jquery.js',
       // import: './public/thirdparty/flexdatalist/jquery.flexdatalist.min.js',
+    },
+    acceptConditions: {
+      import: './public/js/acceptConditions.js',
+    },
+    thirdparty: {
+      import: './public/thirdparty/jszip.min.js',
     }
   },
   output: {

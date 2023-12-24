@@ -1,3 +1,4 @@
+import './public/js/acceptConditions.js';
 import './public/js/firebase.js';
 import './public/js/auth.js';
 import './public/js/firestore.js';

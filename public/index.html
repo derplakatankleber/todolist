@@ -19,7 +19,8 @@
     <!--<script type="module" src="./js/thridparty.js"></script>-->
     <script src="../thirdparty/sceditor/sceditor.min.js"></script>
     <script src="../js/draggable.js"></script>
-    <script src="../js/indexFilter.js"></script>
+    <script src="./js/dist/thirdparty.bundle.js"></script>
+    <!-- <script src="../js/indexFilter.js"></script> -->
 
     <!-- <script src="../thirdparty/jquery.js"></script>
     <script src="../thirdparty/flexdatalist/jquery.flexdatalist.min.js"></script> -->
@@ -59,7 +60,32 @@
     <div class="ContainerNavContent">
         <div class="ContainerGrow">
             <div class="indexContainer">
-                <input class="indexFilter w-90 rounded" placeholder="filter" type="search" name="FilterIndex">
+                <input class="indexFilter w-90 rounded" placeholder="filter" type="search" name="FilterIndex"
+                    oninput="mystore.filterIndexInput(event)">
+                <div class="quickFilter">
+                    <!--<button class="btn" onclick="mystore.sortIndex(event)" type="button"><i
+                            class="bi bi-calendar-date highlight"></i></button>
+                    <button class="btn" onclick="mystore.sortIndex(event)" type="button"><i
+                            class="bi bi-sort-alpha-down"></i></button>-->
+                    <div class="sortIndex">
+                        <input class="sortIndex-input visually-hidden" type="radio" name="Radios" id="RadiosCalendar1"
+                            value="cal1" onclick="mystore.sortIndex(event)" checked>
+                        <label class="sortIndex-label rounded border border-2 border-dark-subtle"
+                            for="RadiosCalendar1"><i class="bi bi-calendar-date"></i></label>
+                        <input class="sortIndex-input visually-hidden" type="radio" name="Radios" id="RadiosCalendar2"
+                            value="cal2" onclick="mystore.sortIndex(event)">
+                        <label class="sortIndex-label rounded border border-2 border-dark-subtle"
+                            for="RadiosCalendar2"><i class="bi bi-calendar-date-fill"></i></label>
+                        <input class="sortIndex-input visually-hidden" type="radio" name="Radios" id="RadiosAlpha1"
+                            value="cal3" onclick="mystore.sortIndex(event)">
+                        <label class="sortIndex-label rounded border border-2 border-dark-subtle" for="RadiosAlpha1"><i
+                                class="bi bi-sort-alpha-down"></i></label>
+                        <input class="sortIndex-input visually-hidden" type="radio" name="Radios" id="RadiosAlpha2"
+                            value="cal4" onclick="mystore.sortIndex(event)">
+                        <label class="sortIndex-label rounded border border-2 border-dark-subtle" for="RadiosAlpha2"><i
+                                class="bi bi-sort-alpha-up"></i></label>
+                    </div>
+                </div>
                 <div class="items d-grid gap-1 m-1">
                     <!--<p><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">0zWf2ELf4ErfSoepjqO3</a></p>
                 <p><a href="javascript:openDocument('0zWf2ELf4ErfSoepjqO3')" class="doc">abc</a></p>-->

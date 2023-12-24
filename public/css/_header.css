@@ -1,68 +1,88 @@
+body {
+    /* min-width: fit-content;*/
+}
+
 nav {
     height: 65px;
+    min-width: 500px;
     background-color: var(--header-bg-color);
 }
-nav > .container-nav{
+
+nav>.container-nav {
     /* height: 100%; */
     display: flex;
-    flex-direction: row; 
-  
+    flex-direction: row;
+
 }
-.container-icon{
+
+.container-icon {
     align-self: center;
 }
-.loginfield{
+
+.loginfield {
     display: flex;
     align-self: center;
 }
-#useridicon{
+
+#useridicon {
     align-self: center;
     margin: 5px;
 }
-#useridicon.auth{
+
+#useridicon.auth {
     color: var(--header-text-color);
 }
-div a.navbar-brand{
+
+div a.navbar-brand {
     font-size: xx-large;
     text-decoration: none;
     color: var(--header-brand-color);
     padding: 5px;
+    margin-right: 5px;
 }
-.navbar-brand-div{
+
+.navbar-brand-div {
     flex-basis: 100%;
     align-self: center;
     text-align: right;
 }
-.navbar-toggler{
+
+.navbar-toggler {
     align-self: center;
 }
 
-.hide{
+.hide {
     display: none !important;
 }
 
-.loginbuttonContainer{
+.loginbuttonContainer {
     flex-basis: 100px;
     align-self: center;
 }
-.userpasswordContainer{
+
+.userpasswordContainer {
     margin-right: 10px;
 }
-.emailInput, .passwordInput{
+
+.emailInput,
+.passwordInput {
     width: 100%
 }
-.loginSuccess{
+
+.loginSuccess {
     display: flex;
     align-self: center;
 }
-.loginSuccess span{
+
+.loginSuccess span {
     color: var(--header-text-color);
 }
 
-.loginbutton{
+.loginbutton {
     line-height: 1;
 }
-.signoutButton{
+
+.signoutButton {
     line-height: 1;
     margin-left: 1em;
 }

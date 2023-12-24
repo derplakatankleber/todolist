@@ -68,4 +68,22 @@ export class downloader {
         a.click();
         document.body.removeChild(a);
     }
+
+    downloadZip(content, filename) {
+        if (typeof filename === "undefined") {
+            filename = new Date().toISOString() + "_" + window.location.hostname;
+        }
+        if (filename) {
+            filename = filename.trim().replace(/([^\dA-Za-z.]+)/ig, "_");
+        }
+        if (!filename.endsWith(".zip")) {
+            filename += ".zip";
+        }
+        const a = document.createElement("a");
+        a.href = "data:application/zip;base64," + content;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
 }

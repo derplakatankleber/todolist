@@ -9,7 +9,7 @@ import htmlEditorC from './startEditor.js'
 // import auth from from './auth.js'
 import { fbLogger } from "./logFirebase.js";
 import { downloader } from './tools.js';
-
+import { sortIndex, filterIndexInput } from './noteIndex.js'
 
 export default class store {
     // mycollectionName = "testdb";
@@ -91,6 +91,17 @@ export default class store {
         return contentJSON;
     }
 
+    getDateModified(contentJSON) {
+        let modified = contentJSON["modified"];
+        if (!modified || modified === "undefined") {
+            modified = contentJSON["created"];
+            if (!modified || modified === "undefined") {
+                modified = new Date().toISOString();
+            }
+        }
+        return modified;
+    }
+
     setIndexContainer(mapOfDocs) {
         $(".indexContainer .items").empty();
         if (mapOfDocs && myapp) {
@@ -102,9 +113,13 @@ export default class store {
                 if (contentJSON["name"]) {
                     name = contentJSON["name"];
                 }
+                let dateModified = this.getDateModified(contentJSON);
                 //$(".indexContainer .items").append('<p><a href="javascript:openDocument(\''+docItem.id+'\')" class="doc btn btn-secondary btn-sm stretched-link">'+name+'</a></p>');
                 // $(".indexContainer .items").append('<button onclick="mystore.openDocument(\''+docItem.id+'\')" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">'+name+'</button>');
-                this.sortObj.push({ "id": docItem.id, "name": name, "value": ('<button onclick="mystore.clickEventOpen(event,this)" data-id="' + docItem.id + '" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">' + name + '</button>') });
+                this.sortObj.push({
+                    "id": docItem.id, "name": name, "dateModified": dateModified,
+                    "value": ('<button onclick="mystore.clickEventOpen(event,this)" data-id="' + docItem.id + '" data-modified="' + dateModified + '" class="btn btn-secondary btn-sm overflow-hidden w-90 text-start" type="button">' + name + '</button>')
+                });
                 if (contentJSON["tags"] && contentJSON["tags"].length > 0) {
                     let tagListS = contentJSON["tags"];
                     let tagList = [];
@@ -123,12 +138,15 @@ export default class store {
             }
             let collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
             this.sortObj.sort((a, b) => {
-                return collator.compare(a.name, b.name);
-            });
+                return collator.compare(a.dateModified, b.dateModified);
+            }).reverse();
             for (let id in this.sortObj) {
                 // console.log('bla4: ' + id);
                 $(".indexContainer .items").append(this.sortObj[id].value);
             }
+            //document.querySelector("#RadiosCalendar1").setAttribute("checked", "true");
+            this.sortIndex();
+            this.filterIndexInput();
         }
     }
 
@@ -149,13 +167,7 @@ export default class store {
                         contentRows = contentJSON.content.split("\n").length;
                     }
                 }
-                let modified = contentJSON["modified"];
-                if (!modified) {
-                    modified = contentJSON["created"];
-                    if (!modified) {
-                        modified = new Date().toISOString();
-                    }
-                }
+                let modified = this.getDateModified(contentJSON);
                 $(".docContainer").append("<p>Last saved: " + new Date(modified).toLocaleString() + "</p>");
                 $(".docContainer").append('<div class="contentAttributes">');
                 $(".contentAttributes").append('<i class="bi bi-three-dots-vertical contentAttributesMoreClick"></i><div class="contentAttributesMore"></div>');
@@ -271,8 +283,8 @@ export default class store {
         }
     }
 
-    async saveDocIntern(id, mydoc, reloadIndex) {
-        if (await this.docExist(id)) {
+    async saveDocIntern(id, mydoc, reloadIndex, forceId) {
+        if (await this.docExist(id) || (id && forceId)) {
             try {
                 await setDoc(doc(this.db, this.mycollectionName, id), mydoc);
                 console.log("Document successfully written!");
@@ -331,6 +343,23 @@ export default class store {
         $(".docContainer").empty();
     }
 
+    downloadAllDocs() {
+        if (JSZip) {
+            const zip = new JSZip();
+            for (let key in indexMap) {
+                let doc = this.indexMap[key];
+                let jdoc = this.getJSONofDocument(this.contentDoc);
+                zip.file(jdoc.name, JSON.stringify(jdoc));
+            }
+            zip.generateAsync({ type: "base64" }).then(function (base64) {
+                window.location = "data:application/zip;base64," + base64;
+            }, function (err) {
+                console.log(err);
+            });
+        }
+
+    }
+
     downloadDoc() {
         if (this.contentDoc.id && this.contentDoc && downloader) {
             let doc = this.getJSONofDocument(this.contentDoc);
@@ -364,7 +393,7 @@ export default class store {
                     // this will then display a text file
                     // console.log(reader.result);
                     let docJSON = JSON.parse(reader.result);
-                    this.saveDocIntern(docJSON.id, docJSON, true);
+                    this.saveDocIntern(docJSON.id, docJSON, true, true);
                 },
                 false,
             );
@@ -423,6 +452,15 @@ export default class store {
             }
             mystore.openDocument(docid);
         }
+    }
+
+    sortIndex(evt) {
+        console.log("sort index");
+        sortIndex(evt);
+    }
+
+    filterIndexInput(evt) {
+        filterIndexInput(evt);
     }
 };
 
